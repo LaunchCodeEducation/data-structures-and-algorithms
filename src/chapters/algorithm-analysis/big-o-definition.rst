@@ -75,11 +75,7 @@ Check Your Understanding
 
 .. admonition:: Question
 
-<<<<<<< HEAD
   The big-O of an algorithm is the upper bound representation of its behavior
-=======
-  The Big-O of an algorithm is the upper bound classification of its behavior
->>>>>>> algorithm-analysis
 
   - true
   - false
@@ -88,11 +84,7 @@ Check Your Understanding
 
 .. admonition:: Question
 
-<<<<<<< HEAD
-  An algorithm's actual growth rate at increasing input sizes will always be less than the upper bound of the big-O Value that classifies it
-=======
   An algorithm's actual growth rate at will always be less than the upper bound of the Big-O Value that classifies it
->>>>>>> algorithm-analysis
 
   - true
   - false
