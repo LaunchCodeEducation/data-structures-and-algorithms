@@ -112,7 +112,7 @@ Check Your Understanding
 
   What is big-O Notation?
 
-  #. A general notation used to describe the complexity of an algorithm relative to its input size
+  #. A way to describe the complexity of an algorithm relative to its input size
   #. The process of analyzing an algorithm's performance
   #. An analogous term for an algorithm
 

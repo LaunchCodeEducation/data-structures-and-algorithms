@@ -1,4 +1,3 @@
-========================
 Big-O Notation In Detail
 ========================
 
@@ -19,7 +18,7 @@ There is a lot to unpack here. And if your head is spinning don't worry. In this
 .. index:: upper bound
 
 Growth Rates & Bounds
-^^^^^^^^^^^^^^^^^^^^^
+---------------------
 
 At its core big-O Notation is concerned with the **growth rates** of algorithms as a function of their input size. The growth rate of a function is its incremental change in output as the value of its input is continuously increased. The most important part of big-O notation is *n* the size of the input of the algorithm. 
 
@@ -39,54 +38,52 @@ By representing algorithms as mathematical functions we are able to visualize th
 Big-O As The Worst Case
 -----------------------
 
-Big-O Notation is to be able to compare the `upper bound` time complexity of candidate algorithms. When we visualize the limit of each algorithm's big-O growth rate we are able to compare them to each other. 
+big-O Notation is to be able to compare the `upper bound` time complexity of candidate algorithms. When we visualize the limit of each algorithm's big-O growth rate we are able to compare them to each other. 
 
 Algorithms that quickly slope are said to be less performant. Because their growth rate is limited at smaller input sizes relative to other candidates. 
 
-Big-O Notation determines the ``worst case`` performance of a given algorithm. It is possible and even likely that an algorithm will perform better than the worst case, however to compare one algorithm to another we always want to consider the worst case of each algorithm.
+big-O Notation determines the ``worst case`` performance of a given algorithm. It is possible and even likely that an algorithm will perform better than the worst case, however to compare one algorithm to another we always want to consider the worst case of each algorithm.
 
-Below is a graph of the common big-O Values you are likely to encounter. We will cover how each Value relates in a practical sense to an algorithm in the coming section. For now just consider how the complexity function of *n* controls the limiting behavior of these Big-O Values.
+Below is a graph of the common big-O Values you are likely to encounter. We will cover how each Value relates in a practical sense to an algorithm in the coming section. For now just consider how the complexity function of *n* controls the limiting behavior of these big-O Values.
 
 .. todo:: preview of all the common values on a graph (operations vs input size). something like this https://s14-eu5.startpage.com/cgi-bin/serveimage?url=https%3A%2F%2Fwww.cdn.geeksforgeeks.org%2Fwp-content%2Fuploads%2Fmypic.png&sp=b82f0f2b0994a01b2ddadf6679f37c21&anticache=340636
 
 
-The Elementary Big-O Values
-
 Check Your Understanding
-========================
+------------------------
 
 .. admonition:: Question
 
-  Time complexity refers to the runtime in standard units of time (seconds, minutes, etc.)
+   Time complexity refers to the runtime in standard units of time (seconds, minutes, etc.)
 
-  - true
-  - false
+   - True
+   - False
 
-.. false
-
-.. admonition:: Question
-
-  The limit of a complexity function is the point where its curve becomes vertical
-
-  - true
-  - false
-
-.. true
+.. False
 
 .. admonition:: Question
 
-  The big-O of an algorithm is the upper bound representation of its behavior
+   The limit of a complexity function is the point where its curve becomes vertical
 
-  - true
-  - false
+   - True
+   - False
 
-.. true
+.. True
 
 .. admonition:: Question
 
-  An algorithm's actual growth rate at will always be less than the upper bound of the Big-O Value that classifies it
+   The big-O of an algorithm is the upper bound representation of its behavior
 
-  - true
-  - false
+   - True
+   - False
 
-.. true
+.. True
+
+.. admonition:: Question
+
+   An algorithm's actual growth rate at will always be less than the upper bound of the big-O Value that classifies it
+
+   - True
+   - False
+
+.. True
