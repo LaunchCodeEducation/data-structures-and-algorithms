@@ -11,6 +11,8 @@ Before we begin let's take a look at a visual representation of the big-O Values
 
 .. todo:: preview of the common values on a graph (operations vs input size). something like this https://s14-eu5.startpage.com/cgi-bin/serveimage?url=https%3A%2F%2Fwww.cdn.geeksforgeeks.org%2Fwp-content%2Fuploads%2Fmypic.png&sp=b82f0f2b0994a01b2ddadf6679f37c21&anticache=340636
 
+.. use this one: https://commons.wikimedia.org/wiki/File:Comparison_computational_complexity.svg 
+
 Linear Big-O Values
 -------------------
 
@@ -358,7 +360,7 @@ For this reason we can safely *cancel all but the highest order term* leaving us
 .. todo:: log n is difficult to define outside the context of binary search. i think it is better suited to be introduced graphically here but formally defined in the next BT/BST chapter.
 
 Comparing big-O Values
-======================
+----------------------
 
 Now that we have covered some common big-O Values let's take another look at our graph:
 
@@ -375,7 +377,7 @@ We can see that when ordered from most to least performant we get the following 
 We will explore *O(log n)* in more detail within the context of binary searches. For now keep this order in mind as a quick way of comparing the classifications of algorithms and ruling out less performant candidates. 
 
 Check Your Understanding
-========================
+------------------------
 
 .. admonition:: Question
 
