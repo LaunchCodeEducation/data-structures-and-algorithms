@@ -8,6 +8,4 @@ Binary Trees and Binary Search
    binary-trees
    binary-search-trees
    binary-search-tree-operations
-   bst-exercises
    bst-studio
-
