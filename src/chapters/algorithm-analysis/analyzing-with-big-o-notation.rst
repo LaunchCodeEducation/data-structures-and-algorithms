@@ -1,4 +1,4 @@
-Analyzing Algorithms With big-O Notation
+Analyzing Algorithms With Big-O Notation
 ========================================
 
 Now that we have a conceptual foundation of big-O Notation let's explore it from a practical perspective. Analysis with big-O is about *comparing the classifications* of algorithms, not the algorithms themselves. Think of using big-O as a way of performing a surface-level analysis of how an algorithm will behave based on the `class of algorithms` it belongs to.
