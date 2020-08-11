@@ -8,5 +8,4 @@ Algorithm Analysis
    big-o-definition
    analyzing-with-big-o-notation
    insertion-sort
-   exercises
    studio
