@@ -1,37 +1,73 @@
 Insertion Sort
 ==============
 
-.. IDEA:
-  case studies:
-    in main doc: pseudocode
-    link to: directory of implementations in various languages
-      c# for this first draft
-
-.. TODO:: Link back to the recursion lesson in LC101.
-
 Sorting
 -------
 
-``Sorting`` is the act of taking a collection of data and rearranging it into a specific order. The order can be numerical ascending, numerical descending, alphabetical, by time, etc,.
+.. index:: ! sorting
 
-Some of the most famous algorithms are sorting algorithms. Sorting algorithms are important for many reasons, but for the purposes of this class they are primarly important because searching through unsorted data always takes *O(n)* time. You have to check against every single value every time you search for something. However, if your data is sorted you can implement different searching algorithms that are more performant than *O(n)*. We will see some of these searching algorithms in future lessons.
+**Sorting** is the act of taking a collection of data and rearranging it into a specific order. The order can be numerical ascending, numerical descending, alphabetical, by time, and so on.
 
-That being said not all sorting algorithms are equal. A sorting algorithm comes with it's own big-O Notation, making some sorting algorithms better depending on the incoming data.
+Some of the most famous algorithms are sorting algorithms. Sorting algorithms are important for many reasons, but for the purposes of this class they are primarily important because searching through *unsorted* data *always* takes *O(n)* time. 
 
-Throughout this book we will introduce a number of various sorting algorithms. We will provide information about each sort which will be helpful in deciding which sort is better for which dataset. Some are more efficient for small sets of data, or for large sets of data. Most programming languages already have these sorting algorithms as a part of their standard library when working with data structures. However, it is valuable to know how they work, and how to implement them if you need to write your own custom sorting algorithm.
+To search for a value in unsorted data, the worst-case scenario is that the value in question is last and we have to check every single item in the collection. However, if the data is sorted you can implement different searching algorithms that are more performant than *O(n)*. We will see some of these searching algorithms in future lessons.
+
+That being said, not all sorting algorithms are equal. A sorting algorithm comes with it's own big-O notation, making some sorting algorithms better depending on the incoming data.
+
+Throughout this book, we will introduce a number of various sorting algorithms. We will provide information about each sort which will be helpful in deciding when it provides the best solution. Some sorting algorithms are more efficient for small sets of data, others for large sets of data. Most programming languages already have these sorting algorithms built-in as a part of their standard libraries. However, it is valuable to know how they work, and how to implement them if you need to write your own custom sorting algorithm.
 
 Insertion Sort
 --------------
 
-The first sorting algorithm we will be looking at is ``Insertion Sort``. This sort can be implemented in a couple of different ways, but we will be showing examples that sort a collection of numbers in ascending order. That is to say the smallest number will be the first element in the array, and the largest number will be the last element in the array.
+.. index:: ! insertion sort
 
-An Insertion sort is a sorting algorithm that puts a collection of data into ascending numerical order. It would take an array like this ``[4, 3, 8, 7, 2, 10]`` and return an array like this ``[2, 3, 4, 7, 8, 10]``
+The first sorting algorithm we will be looking at is **insertion sort**. This sort can be implemented in a couple of different ways, but we will be showing examples that sort a collection of numbers in ascending order. That is to say, the smallest number will be the first element in the array, and the largest number will be the last element in the array.
 
-An Insertion sort is an algorithm that loops through all the elements of an array and compares that value to all the previously sorted elements of the array. If it finds that the currently selected value is smaller than the value it is comparing to, it will insert that value into the position of the value it is being compared to. When an insert happens the nested loop breaks, and the outer loop moves to the next value in the remaining unsorted values of the array.
+.. admonition:: Example
 
-The insertion sort achieves this order by looping through all the elements of an array, starting with the second element, and compares that element to every element that comes before it. If it finds that the element is smaller than any of the previous comparison elements it will move the element into the position of the comparison element. After it has this element in place, it moves to the next element in the array. In essence the code requires a loop nested inside of another loop making it's big-O notation |On^2|.
+   Given the input
+   
+   ::
+   
+      [4, 3, 8, 7, 2, 10]
+      
+   insertion sort will return
+   
+   ::
+   
+      [2, 3, 4, 7, 8, 10]
 
-Let's manually step through an array to see how the Insertion Sort works. We will start with the array above ``[4, 3, 8, 7, 2, 10]``, and end up with ``[2, 3, 4, 7, 8, 10]``.
+Insertion sort works as follows:
+
+#. Create a new, empty array. This will eventually contain the sorted items.
+#. Add the first item from the unsorted array to the new array.
+#. For each other item in the unsorted array, insert the item in the new array so that the new array remains sorted.
+
+Here is the algorithm in pseudocode:
+
+::
+
+   // s
+   sorted = [unsorted[0]]
+
+   for i in 1..unsorted.length-1:
+      for j in 0..sorted.length:
+
+         item = unsorted[i]
+
+         // we've reached the end of the array, so the new element 
+         // is larger than all elements in sorted
+         if j == sorted.length:
+            append item to sorted
+            break
+
+         if item < sorted[j]:
+            insert item at position j, and shift elements to the right 
+            break
+
+We see that the algorithm requires a loop nested inside of another loop, making it's big-O value |On^2|.
+
+Let's manually step through an array to see how the insertion sort works. We will start with the example array above ``[4, 3, 8, 7, 2, 10]``, and end up with ``[2, 3, 4, 7, 8, 10]``.
 
 ::
 
@@ -94,7 +130,7 @@ Let's manually step through an array to see how the Insertion Sort works. We wil
    // all loops have completed
    // sorted elements: [2, 3, 4, 7, 8, 10]
 
-Again we have a nested loop the big-O notation for an Insertion Sort algorithm would be |On^2|.
+We will now look at two implementations of insertion sort in code. The examples here are in C#, but you should be able to follow even if you're unfamiliar with the language.
 
 Non-Recursive Solution
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -178,9 +214,17 @@ Recursive Solution
 Check Your Understanding
 ------------------------
 
-- What is sorting?
-- Why is sorting valuable?
-- What is the big-O Notation of Insertion Sort?
+.. admonition:: Question
+
+   **True/False:** Searching for a value in a collection has the same big-O value regardless of whether or not the collection is sorted.
+
+.. admonition:: Question
+
+   **True/False:** All sorting algorithms have the same big-O value.
+
+.. admonition:: Question
+
+   What is the big-O value of insertion sort?
 
 .. |On^2| raw:: html
 
