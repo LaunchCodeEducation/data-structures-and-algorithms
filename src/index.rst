@@ -23,6 +23,8 @@ Studios
    :maxdepth: 1
    :name: studiostoc
 
+   chapters/algorithm-analysis/studio
+
 .. toctree::
    :hidden:
 
