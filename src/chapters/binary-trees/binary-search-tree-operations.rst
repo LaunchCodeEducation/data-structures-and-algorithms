@@ -4,18 +4,22 @@ Binary Search Tree Operations
 BST Operations
 --------------
 
-When performing operations on a binary search tree we typically think of three things:
+There are three basic operations for a BST:
 
-- Searching for values
-- Inserting new values
-- Deleting existing values
+- Searching for a value
+- Inserting a new value
+- Deleting an existing value
 
-Inserting, and deleting requires a change to the binary search tree which we consider destructive actions as they alter the underlying structure of our data. The tree can remain balanced by following the rules outlined in the previous sections, however the more destructive actions that are performed on the tree the less performant the tree becomes. It moves further away from *O(log n)*, and more towards *O(n)*. We will show an example in a later section to demonstrate this.
+Inserting or deleting requires a change to the binary search tree, which are destructive actions. In other words, they alter the underlying structure of the tree. Over the course of several insertions and deletions, a balanced tree can become unbalanced. As we have learned, this will degrade performance of the tree. 
+
+There are techniques to keep a BST balanced even after a destructive operation, but those are beyond the scope of this course. Going forward, we will typically assume that a BST is balanced when talking about runtime efficiency.
 
 Search
 ^^^^^^
 
-We have seen Binary Search already through this chapter multiple times, and we have seen how a binary search tree handles a search, but let's go through one final example.
+We have seen binary search already in this chapter multiple times, but let's go through one final example.
+
+Let's search for 13 in the following tree:
 
 ::
 
@@ -27,13 +31,11 @@ We have seen Binary Search already through this chapter multiple times, and we h
     / \     /     /  \    \
    2   5   7     11  14    30
 
-What are the steps for searching for 13:
+#. Check the first node, 10. 13 is greater than 10 so go to its right child, 19.
+#. 13 is less than 19, so go to the left child of 19, which is 13.
+#. 13 is the element we are searching for, so the algorithm terminates here.
 
-- Check the first node 10. 13 is greater than 10 so go to the right node.
-- Check the right child of the first node 19. 13 is smaller than 19 so go to the left.
-- Check the left child of previous node 13. 13 is the number we are looking for and we are done!
-
-This binary search tree is perfectly balanced so our search take at worst *O(log n)*.
+The search operation on a BST will involve at most *h* comparisons, where *h* is the height of the tree. For a balanced tree, this means that search is *O(log n)*.
 
 Insert
 ^^^^^^
@@ -50,7 +52,14 @@ Let's take the example from above and add a couple of new values to it.
     / \     /     /  \    \
    2   5   7     11  14    30
 
-First lets add a new largest value: 31
+First lets add a new largest value: 31. In order to maintain the ordering structure of a BST, we must be careful where we insert this new value. 
+
+The insertion algorithm is as follows:
+
+#. Compare the new value to the root node. If it is larger, move to the right subtree. If it is small, move to the left subtree.
+#. Carry out step 1 on the root of the subtree until we reach a node with no left/right child. Add the new value to the left or right of this node, based on how it compares.
+
+To insert 31 into the tree, we start at the root element, 10. 31 > 10 so we move to the right subtree, with 19 as the root. We continue this process until we reach 30. Since 31 > 30 and 30 does NOT have a right child, we insert 31 here.
 
 ::
 
@@ -63,10 +72,6 @@ First lets add a new largest value: 31
    2   5   7     11  14    30
                              \
                               31
-
-Lets consider the logic. We want to add a new value 31. We first check our root node 10. Our new value (31) is larger than 10. So this most go as the right child. However, the right child of 10 is already taken with the value of 19 so we keep comparing. Our new value 31 is greater than 19 so we need to put our new value in the right node spot of 19, however that spot is already taken by 30. Our new value 31 is larger than 30 so we need to put 31 into right child node of 30. That spot is currently available so we can put our new value 31 as the right child of 30.
-
-To add a new value we simply perform a binary search to determine where the new position goes.
 
 Lets see another example. Lets add the value 4 to our new BST.
 
@@ -82,50 +87,16 @@ Lets see another example. Lets add the value 4 to our new BST.
       /                      \
      4                        31
 
-Considering the logic. 4 is smaller than our root node 10. It's smaller than the left child 6. It's larger than the left child 3. It's smaller than the right child 5, and 5 has an empty left child node which is where we put 4.
+Carry out the algorithm step-by-step for yourself to verify our work. It is also easy to verify that our new tree is still BST, based on the algorithm that we used.
 
-Let's add another value as an example 13.
-
-::
-
-           ____10____
-          /          \
-       __6__         19
-      /     \       /  \
-     3       9     13   25
-    / \     /     /  \    \
-   2   5   7     11  14    30
-      /              /       \
-     4              13        31
-
-The value we are inserting is a value already on our tree 13.
-
-Let's walk through the logic to figure out how it was inserted into this spot.
-
-13 is greater than our root node 10 so we need to check the right child. 13 is less than 19 so we need to check the left child. 13 is greater than or equal to 13 so we need to check the right child. 13 is less than 14 so we need to check the left child which is empty and becomes the spot for our new value 13.
-
-As a final insertion example let's add 10.
-
-10 is greater than or equal to our root node. 10 is less than 19. 10 is less than 13. 10 is less than 11. So it should go into the left child of 11.
-
-::
-
-           ____10____
-          /          \
-       __6__         19
-      /     \       /  \
-     3       9     13   25
-    / \     /     /  \    \
-   2   5   7     11  14    30
-      /         /    /       \
-     4         10   13        31
-
-Since our insertion into a binary search tree relies on a Binary Search to find the position of the new node, this operation is performed in *O(log n)* time!
+Like search, insertion will take at most *h* operations, where *h* is the height of the tree. For a balanced tree, this means that insertion is *O(log n)*.
 
 Remove
 ^^^^^^
 
-Remove is similar to Insert in that it relies on a Binary Search to find the initial value to be removed. Using the final BST we had at the end of the last section let's try to remove 31.
+Remove is similar to search it that first must find the element in the tree, and then remove it. 
+
+Let's remove 11 from the final tree in the previous section. This gives us:
 
 ::
 
@@ -134,22 +105,14 @@ Remove is similar to Insert in that it relies on a Binary Search to find the ini
        __6__         19
       /     \       /  \
      3       9     13   25
-    / \     /     /  \    \
-   2   5   7     11  14    30
-      /         /    /       
-     4         10   13           
+    / \     /        \    \
+   2   5   7         14    30
+      /                      \
+     4                        31
 
-To find this value a binary search was performed:
+This was fairly simple. We first had to find 11, which took 4 steps. Then we simply removed it. Note that 11 was a **leaf** node. In other words, it had no children. Removing a node with children takes a bit more work.
 
-- 31 is greater than 10
-- 31 is greater than 19
-- 31 is greater than 25
-- 31 is greater than 30
-- 31 equals 31
-
-The value 31 was found. The next step is to see if 31 has any child nodes. It does not so it can be deleted without further action.
-
-Let's try removing a value that has child nodes: 3
+Let's try removing 5, which has a child node.
 
 ::
 
@@ -158,24 +121,21 @@ Let's try removing a value that has child nodes: 3
        __6__         19
       /     \       /  \
      2       9     13   25
-      \     /     /  \    \
-       5   7     11  14    30
-      /         /    /       
-     4         10   13  
+      \     /        \    \
+       4   7         14    30
+   
+Something interested happened. 5's left child took the place of 5. When deleting a node that has only one child, replacing it with its child is an easy way to keep the BST property.
 
-Something interested happened. 3's left child took the place of 3. Why did that happen? 
+To remove a node that has two children, it becomes more complicated. 
 
-Let's walk through the logic a binary search was performed to find the value:
+Let's consider the case of removing 19, which has two children. The rule for this scenario is:
 
-- 3 is less than 10
-- 3 is less than 6
-- 3 equals 3!
+- Replace the node with its **in-order successor**, or
+- Replace the node with its **in-order predecessor**.
 
-We found the value through a Binary Search. But what do we know about 3?
+The in-order successor of a node is the smallest node in the entire tree that is still larger than the node in question. In other words, if all of the elements were in an ordered list, the in-order successor is the element that would *immediately* follow the element in question. A similar definition applies to in-order predecessor.
 
-We know is that 3 was the left child of its parent node 6. To keep our binary search tree balanced we need to ensure that any value placed into 3's position is still follows our rules for our binary search tree. In this case 3 only has one total child, and that child doesn't have any children. So we can simply move it's child into its current spot in the tree. So in this case 3's only child 2 moves into 3's position in the binary search tree.
-
-Let's try it on the right side to see what happens. Let's remove the value 19.
+Replace 19 with it's in-order successor, 25, gives us this tree:
 
 ::
 
@@ -189,6 +149,4 @@ Let's try it on the right side to see what happens. Let's remove the value 19.
       /         /    /       
      4         10   13  
 
-.. note::
-
-   Insert and Remove are destructive operations as they change the structure of the tree. When you change the tree it isn't perfectly balanced. Re-balancing a tree after using a destructive operation goes beyond the scope of this course, but is a fascinating topic. If you want to learn more look into red-black trees which are essentially binary search trees that have the ability to re-balance themselves after each operation.
+As with insert, remove is a *destructive* operation. This means it can result in an unbalanced tree. An actual implementation of a BST would include logic to re-balance a tree after each insertion or removal.
