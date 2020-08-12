@@ -20,7 +20,7 @@ project = 'Data Structures and Algorithm Analysis'
 # -- Project information -----------------------------------------------------
 
 
-copyright = '2020, LaunchCode'
+copyright = '2020, Microsoft'
 author = 'LaunchCode'
 
 # The short X.Y version
@@ -39,7 +39,6 @@ extensions = [
     'youtube',
     'external_links',
     'admonition_icons',
-    'replit',
     'ordered_toctree',
 ]
 
@@ -49,7 +48,7 @@ replit_user = 'launchcode'
 templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
-source_suffix = ['.rst', '.md']
+source_suffix = ['.rst']
 
 # Configure markdown parsing
 source_parsers = {'.md': 'recommonmark.parser.CommonMarkParser'}
