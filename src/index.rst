@@ -8,6 +8,7 @@ Chapters
 
    chapters/algorithm-analysis/index
    chapters/binary-trees/index
+   chapters/sorting-algorithms/index
 
 .. toctree::
 
@@ -18,6 +19,5 @@ Chapters
 
    todos
    index-full
-   chapters/sorting-algorithms/index
    chapters/data-structures/index
    

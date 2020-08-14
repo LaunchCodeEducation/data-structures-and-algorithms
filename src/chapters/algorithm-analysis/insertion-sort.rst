@@ -1,3 +1,5 @@
+.. _insertion-sort:
+
 Insertion Sort
 ==============
 
@@ -47,7 +49,7 @@ Here is the algorithm in pseudocode:
 
 ::
 
-   // s
+   // create a new array with the first item
    sorted = [unsorted[0]]
 
    for i in 1..unsorted.length-1:
