@@ -104,6 +104,8 @@ This is an example of the worst-case scenario for a collection of size 11. Let's
 Binary Search Performance
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+.. _binary-search-perf:
+
 So for a collection with a length of 11, the best-case performance is 1
 operation, and the worst-case performance is 4 operations. That's certainly
 more better than *O(n)* (where the best case would be 1, and the worst case
