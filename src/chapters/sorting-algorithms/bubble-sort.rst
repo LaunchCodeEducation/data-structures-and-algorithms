@@ -7,7 +7,7 @@ Bubble Sort
    :single: sort;in place
 
 
-**Bubble sort** works by swapping adjacent elements in a list whenever that are in the wrong order. It sorts a list **in place**, which means that it works by moving elements within the unsorted list. This is in contrast to insertion sort, which creates a new list to hold the sorted elements. For this reason, bubble sort is more memory-efficient than insertion sort and other sorts that result in a new list being created.
+**Bubble sort** works by swapping adjacent elements in a list whenever they are in the wrong order. It sorts a list **in place**, which means that it works by moving elements within the unsorted list. This is in contrast to insertion sort, which creates a new list to hold the sorted elements. For this reason, bubble sort is more memory-efficient than insertion sort and other sorts that result in a new list being created.
 
 The Algorithm
 -------------
@@ -17,7 +17,6 @@ Here is the bubble sort algorithm:
 #. Loop through the list
 
    #. Moving from left to right, compare adjacent items in the list. Swap the pair if they are out of order.
-   #. Continue swapping with items to the right until you reach the end of the list.
    #. Continue this process---starting at the beginning of the list and comparing pairs---until a full pass of the list occurs without any swaps.
 
 In psuedocode, bubble sort can be written as follows.
@@ -39,7 +38,7 @@ In psuedocode, bubble sort can be written as follows.
             list[i] = temp
             is_sorted = false
 
-At the end of each iteration of the ``while`` loop, at least one additional element is in its correct, sorted location. For example, after the first iteration, the largest element in the list will be in the last position. After the second iteration, the second-largest element will be in the next-to-last position.
+At the end of each iteration of the ``while`` loop, at least one additional element is in its correct, sorted location. For example, after the first iteration, the largest element in the list will be in the last position. After the second iteration, the second-largest element will be in the next-to-last position. This observation is how bubble sort got its name: With each iteration, an additional element "bubbles up" to its correct position.
 
 An Example
 ----------
@@ -89,15 +88,15 @@ Big-O Analysis
 
 To determine the worst-case runtime, let's first look at the inner ``for`` loop. This loop always goes through the entire list, carrying out *n-1* comparisons for a list of length *n*. 
 
-The number of iterations of the outer, ``while`` loop can vary depending on the initial ordering of elements. So what's the worst case? We noted above that after each iteration of the ``while`` loop at least one more element is in its correct location. So the worst-case scenario occurs when *only* one additional element is correctly placed after each iteration. This occurs with a list that is in reverse order:
+The number of iterations of the outer, ``while`` loop can vary depending on the initial ordering of elements. So what's the worst case? We noted above that after each iteration of the ``while`` loop *at least* one more element is in its correct location. So the worst-case scenario occurs when *only* one additional element is correctly placed after each iteration. This occurs with a list that is in reverse order:
 
 ::
 
    (n, n-1, ... 2, 1)
 
-In this situation, the ``while`` loop executes *n-1* times also. So the worst-case number of comparisons is |n-1^2|. Due to big-O reduction rules, we have that bubble sort is |On^2|.
+In this situation, the ``while`` loop executes *n-1* times also. So the worst-case number of comparisons is |n-1^2|. Due to big-O reduction rules, we see that bubble sort is |On^2|.
 
-Bubble sort is NOT and efficient sorting algorithm. It is, however, one of the more intuitive sorting algorithms to understand. For this reason, it is frequently taught in class on algorithms. In the next section, we will learn about an *efficient* sorting algorithm, merge sort.
+Bubble sort is NOT an efficient sorting algorithm. It is, however, one of the more intuitive sorting algorithms to understand. For this reason, it is frequently taught in courses on algorithms. In the next section, we will learn about an *efficient* sorting algorithm, merge sort.
 
 
 .. |n-1^2| raw:: html

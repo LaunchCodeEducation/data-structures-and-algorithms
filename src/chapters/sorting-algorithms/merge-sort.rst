@@ -8,7 +8,7 @@ We will now introduce merge sort, which is an **efficient sort**. An efficient s
 The Algorithm
 -------------
 
-**Merge sort** uses a divide-and-conquer approach. The basic process 
+**Merge sort** uses a divide-and-conquer approach. The basic process is:
 
 #. Break the list into *n* lists of size 1. A list of size 1 is automatically sorted.
 #. *Merge* pairs of smaller lists so that the resulting merged lists are sorted.
@@ -20,7 +20,7 @@ To write this in code, or pseudocode, it is easier to think of this algorithm `r
 #. Sort the two halves.
 #. Merge the halves together.
 
-Step 2 here is the recursive step. It results in a nested process of halving of lists until lists of length 1 are created. These lists are sorted automatically, so then the recursive process begins returning up the call stack. 
+Step 2 here is the recursive step. It results in a nested process of halving of lists until lists of length 1 are created. These lists are sorted automatically, so then the recursive process begins returning up the call stack, merging lists as it does so. 
 
 To write merge sort in pseudocode, it will be helpful to have a ``merge`` function that takes two sorted lists and returns a single sorted list, the result of combining the two.
 
@@ -38,6 +38,14 @@ To write merge sort in pseudocode, it will be helpful to have a ``merge`` functi
          else
             merged[i+j] = b[j]
             j++
+
+      // a has been fully merged, but there are still elements of b to merge
+      if i == a.length
+         merged.append(b[j..b.length-1])
+      // b has been fully merged, but there are still elements of a to merge
+      else
+         merged.append(a[i..a.length-1])
+
 
 With this helper function in-hand, merge sort looks like this:
 
@@ -70,19 +78,19 @@ The figure below shows how recursive merge sort works, step-by-step. The red arr
 
    Image via Wikipedia is in the public domain
 
-Notice how at each step, a list is broken down to a smaller list, which makes the sorting problem a bit smaller. This breaking-down process continues until we arrive at lists of size 1. From there, we start merging the pairs of sorted lists, one level at a time. 
+Notice how at each step in the top half of the diagram, a list is broken down to smaller lists. This breaking-down process continues until we arrive at lists of size 1. From there, we start merging the pairs of sorted lists, one level at a time. 
 
 Big-O Analysis
 --------------
 
 To understand the worst-case runtime for merge sort, we need to consider the big-O values of the ``merge`` and ``merge_sort`` recursive calls separately.
 
-In the algorithm above, ``merge(a, b)`` have *a.length + b.length* operations. Looking at a single level in the lower-half of the example diagram above, we see that adding up all of these operations for each of the calls to ``merge`` at a given level results in *n* operations. For example, the first merge step combines the following pairs:
+In the algorithm above, ``merge(a, b)`` has *a.length + b.length* operations. Looking at a single level in the lower-half of the example diagram above, we see that adding up all of these operations for each of the calls to ``merge`` at a given level results in *n* operations. For example, the second merge step combines the following pairs:
 
 - ``(27, 38)`` and ``(3, 43)`` -> 4 operations to merge
 - ``(9, 82)`` and ``(10)`` -> 3 operations to merge
 
-So the total number of operations to carry out *both* merges is 7, which is the size of our original list.
+So the total number of operations to carry out *both* merges is 7, which is the size of our original list. The same is true at every other level.
 
 The overall number of operations will then be *n* times the number of recursive calls to ``merge_sort``, since each recursive call results in ``n`` operations to merge smaller lists. Since each recursive call *halves* a list, we need to figure out how many times we must carry out this halving operation before reaching lists of length 1. This is the *exact same* situation that we encountered when :ref:`calculating the big-O value for binary search <binary-search-perf>`!
 
