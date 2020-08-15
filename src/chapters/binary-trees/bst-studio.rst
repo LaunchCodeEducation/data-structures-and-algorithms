@@ -24,7 +24,7 @@ You may type up or draw each resulting tree to turn in. If drawing your trees, u
       4   7   13
 
 
-Implement Binary Search for Lists
----------------------------------
+Bonus Mission
+-------------
 
 Write a program that has a function, ``binarySearch(item, list)``, that searches for ``item`` in the sorted list, ``list``. The function should return the index of the item, if found, and -1 otherwise.

@@ -8,6 +8,7 @@ Chapters
    chapters/algorithm-analysis/index
    chapters/binary-trees/index
    chapters/sorting-algorithms/index
+   chapters/data-structures/index
 
 .. toctree::
 
