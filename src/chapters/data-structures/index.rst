@@ -7,4 +7,4 @@ Data Structures
    intro
    linked-lists
    hash-tables
-   studio
+   stacks
