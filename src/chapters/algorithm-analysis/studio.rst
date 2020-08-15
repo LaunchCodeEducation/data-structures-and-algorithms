@@ -59,7 +59,7 @@ This studio consists of several practice exercises.
 
    d. Find all customers with first name beginning with "A".
 
-#. Now supposed that you have a dictionary (or hash map) of customer objects, where the keys are letters and the values are arrays storing all customers with last name beginning with that letter. For example, of our dictionary is ``customers`` then ``customers["A"]`` is an array of all customers with last name ending with "A". Within each array, the customer objects are not sorted in any way. 
+#. Now suppose that you have a dictionary (or hash map) of customer objects, where the keys are letters and the values are arrays storing all customers with last name beginning with that letter. For example, if our dictionary is ``customers`` then ``customers["A"]`` is an array of all customers with last name ending with "A". Within each array, the customer objects are not sorted in any way. 
 
    a. Print the names of all of the customers.
 
