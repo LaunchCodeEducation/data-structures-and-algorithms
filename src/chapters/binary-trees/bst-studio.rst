@@ -7,7 +7,7 @@ BST Operations
 Use the provided BST example below, carry out these operations in the order specified:
 
 #. Insert 9
-#. Remove 4
+#. Remove 2
 #. Insert 12
 #. Remove 6
 
