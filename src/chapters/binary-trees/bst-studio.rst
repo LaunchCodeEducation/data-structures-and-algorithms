@@ -15,13 +15,13 @@ You may type up or draw each resulting tree to turn in. If drawing your trees, u
 
 ::
 
-          ____8
-         /     \
-       _3__     10
-      /    \      \
-      1     6      14
-      \    / \
-      4   7   13
+          _____8
+         /      \
+       _3___     10
+      /     \      \
+      1      6      14
+       \    / \
+        2  5   7
 
 
 Bonus Mission
