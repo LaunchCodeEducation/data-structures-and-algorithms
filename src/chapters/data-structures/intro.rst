@@ -73,4 +73,4 @@ We typically visualize a pointer value as an arrow *pointing* at a non-primitive
 .. image:: figures/pointer.png
    :alt: A pointer that refers to an object
 
-With these tools in-hand, let's proceed to leaning about our first new data structure.
+With these tools in-hand, let's proceed to learning about our first new data structure.

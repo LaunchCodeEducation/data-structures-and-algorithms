@@ -32,7 +32,7 @@ Here's how hash functions are used. To insert a value, ``x``, into a hash table 
 
 Similarly, if we want to retrieve a value from a hash table, we compute ``h(x)`` and then use this hash value to determine which bucket to look in. In key/value language, the hash value is the key, and the element itself is the value.
 
-The choice of hash function is typically left to the developer using the hash table, and is a *critical* component of ensure that the hash table is efficient, as we will see below.
+The choice of hash function is typically left to the developer using the hash table, and is a *critical* component to ensure that the hash table is efficient, as we will see below.
 
 .. admonition:: Example
 
