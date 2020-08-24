@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>1.1. Introduction &#8212; Data Structures and Algorithm Analysis  documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/fa/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/launchcode.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/site.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.2. Big-O Notation In Detail" href="big-o-definition.html" />
+    <link rel="prev" title="1. Algorithm Analysis" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body class="body-bc">
+
+<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+   <div class="container">
+     <div class="navbar-header">
+       <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/lc-ed-logo.png" alt="LaunchCode logo"></span>
+       </a>
+       <span class="navbar-text navbar-version pull-left"><b></b></span>
+     </div>
+
+       <div class="collapse navbar-collapse nav-collapse">
+         <ul class="nav navbar-nav">
+           
+           
+             
+           
+           
+           
+           
+           
+         </ul>
+
+         
+           
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+    <label for="q" class="searchLabel">Search</label>
+    <input type="text" name="q" class="form-control" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+         
+       </div>
+   </div>
+ </div>
+
+<ol class="breadcrumb container">
+    <li><a href="../../index.html">Contents</a></li>
+    <li><a href="index.html">1. Algorithm Analysis</a></li>
+    <li class="active">1.1. Introduction</li>
+</ol>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 content ">
+
+    
+  <div class="section" id="introduction">
+<h1>1.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-algorithm-analysis">
+<h2>1.1.1. What Is Algorithm Analysis?<a class="headerlink" href="#what-is-algorithm-analysis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-an-algorithm">
+<h3>1.1.1.1. What Is An Algorithm?<a class="headerlink" href="#what-is-an-algorithm" title="Permalink to this headline">¶</a></h3>
+<p id="index-0">An <strong>algorithm</strong> is an ordered sequence of steps that carry out an action or solve a problem. Many everyday tasks can be described as an algorithm. For example, here is one way to describe the process of brushing your teeth.</p>
+<ol class="arabic simple">
+<li>Grab the toothbrush</li>
+<li>Apply toothpaste to the brush</li>
+<li>Wet the brush</li>
+<li>Move the brush in a circular motion over a tooth</li>
+<li>Repeat step 4 for each tooth in your mouth</li>
+<li>Rinse your mouth with water</li>
+<li>Rinse the toothbrush</li>
+</ol>
+<p>The algorithm has a few notable characteristics:</p>
+<ul class="simple">
+<li>The steps have a specific order</li>
+<li>Some steps take a fixed amount of time (steps: 1, 2, 3, 4, 6, 7)</li>
+<li>Some steps are dependent on the number of teeth you have (step 5)</li>
+<li>The number of times step 4 is repeated is controlled by step 5</li>
+</ul>
+<p>How long would it take one person to brush their teeth? To determine this, We need to know how long each step will take.</p>
+<ol class="arabic simple">
+<li>Grab the toothbrush - 3 seconds</li>
+<li>Apply toothpaste to the brush - 3 seconds</li>
+<li>Wet the brush - 3 seconds</li>
+<li>Move the brush in a circular motion over a tooth - 4 seconds</li>
+<li>Repeat step 4 for each tooth in your mouth - 32 teeth at 4 seconds (32 x 4)</li>
+<li>Rinse your mouth with water - 5 seconds</li>
+<li>Rinse the toothbrush - 3 seconds</li>
+</ol>
+<p>Calculating the total time gives us 3 + 3 + 3 + (32 x 4) + 5 + 3 = 145 seconds. Our algorithm takes almost 2 and a half minutes!</p>
+<p>What we have just done is a basic <cite>analysis</cite> of an algorithm. We have a list of steps, and have defined which steps are dependant on the input size—in this case the number of teeth.</p>
+</div>
+<div class="section" id="algorithm-analysis">
+<h3>1.1.1.2. Algorithm Analysis<a class="headerlink" href="#algorithm-analysis" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-1"></span><p id="index-2"><strong>Algorithm analysis</strong> is the process of inspecting an algorithm in order to determine how a performance characteristic changes based on the size of the algorithm’s input. We call each characteristic measure the <strong>complexity</strong> of an algorithm. In essence, algorithm analysis tells us how long an algorithm will take to run.</p>
+<p>We write algorithms to solve problems, however there are typically many different ways to solve a given problem. We perform algorithm analysis to determine <em>which</em> algorithm performs the best. To assist with comparing algorithms, programmers have developed a notation that describes the complexity of an algorithm.</p>
+</div>
+<div class="section" id="big-o-notation">
+<h3>1.1.1.3. Big-O Notation<a class="headerlink" href="#big-o-notation" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-3"></span><span class="target" id="index-4"></span><p id="index-5"><strong>Big-O notation</strong> is a means of describing the complexity of a function in relation to the size of its input. It focuses on the amount of time or space (that is, run time or memory usage) required for an algorithm to complete its steps. We refer to these performance characteristics as the algorithm’s <strong>time complexity</strong> and <strong>space complexity</strong>, respectively. More specifically, big-O notation expresses the <em>upper bound</em> on run time for an algorithm.</p>
+<p>In software development, space complexity often takes a back seat to time complexity. Time complexity is a <cite>software limitation</cite>. It can only be improved by implementing a faster algorithm, which can take a considerable amount of effort. Space complexity, however, is a <cite>hardware limitation</cite>. It can be resolved by provisioning more memory and only involves changes to the operating budget.</p>
+<p>Unless otherwise specified, we will use big-O to measure time complexity. This common language will allow us to compare two very different algorithms, and determine which one will perform better with regards to time complexity. The next section introduces the formal definition of big-O notation.</p>
+</div>
+</div>
+<div class="section" id="check-your-understanding">
+<h2>1.1.2. Check Your Understanding<a class="headerlink" href="#check-your-understanding" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>What is an algorithm?</p>
+<ol class="last arabic simple">
+<li>A way to determine the big-O value</li>
+<li>An ordered sequence of steps</li>
+<li>Another word for complexity</li>
+<li>A special type of loop</li>
+</ol>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>What does the time complexity of an algorithm refer to?</p>
+<ol class="last arabic simple">
+<li>How much processing power an algorithm requires relative to its input size</li>
+<li>How much memory an algorithm requires relative to its input size</li>
+<li>How long an algorithm takes to complete relative to its input size</li>
+<li>How long it takes for developers to write an algorithm</li>
+</ol>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>What does the space complexity of an algorithm refer to?</p>
+<ol class="last arabic simple">
+<li>How much processing power an algorithm requires relative to its input size</li>
+<li>How much memory an algorithm requires relative to its input size</li>
+<li>How long an algorithm takes to complete relative to its input size</li>
+<li>How long it takes for developers to write an algorithm</li>
+</ol>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>Which complexity of an algorithm is more important to optimize? Why?</p>
+<ol class="last arabic simple">
+<li>Time complexity, because space complexity can be solved by allocating more resources</li>
+<li>Space complexity, because an algorithm can be written faster by assigning more developers</li>
+</ol>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>What is big-O Notation?</p>
+<ol class="last arabic simple">
+<li>A way to describe the complexity of an algorithm relative to its input size</li>
+<li>The process of analyzing an algorithm’s performance</li>
+<li>An analogous term for an algorithm</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+
+    
+    <nav aria-label="Next and Previous Pages">
+      <ul class="pager">
+        
+        <li class="previous"><a href="index.html"><span aria-hidden="true">&larr;</span> 1. Algorithm Analysis</a></li>
+        
+        
+        <li class="next"><a href="big-o-definition.html">1.2. Big-O Notation In Detail <span aria-hidden="true">&rarr;</span></a></li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../../_sources/chapters/algorithm-analysis/intro.rst.txt"
+     rel="nofollow">Page Source</a>
+</div>
+      
+    </p>
+    <p>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

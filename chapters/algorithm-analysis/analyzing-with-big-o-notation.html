@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>1.3. Analyzing Algorithms With Big-O Notation &#8212; Data Structures and Algorithm Analysis  documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/fa/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/launchcode.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/site.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.4. Insertion Sort" href="insertion-sort.html" />
+    <link rel="prev" title="1.2. Big-O Notation In Detail" href="big-o-definition.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body class="body-bc">
+
+<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+   <div class="container">
+     <div class="navbar-header">
+       <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/lc-ed-logo.png" alt="LaunchCode logo"></span>
+       </a>
+       <span class="navbar-text navbar-version pull-left"><b></b></span>
+     </div>
+
+       <div class="collapse navbar-collapse nav-collapse">
+         <ul class="nav navbar-nav">
+           
+           
+             
+           
+           
+           
+           
+           
+         </ul>
+
+         
+           
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+    <label for="q" class="searchLabel">Search</label>
+    <input type="text" name="q" class="form-control" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+         
+       </div>
+   </div>
+ </div>
+
+<ol class="breadcrumb container">
+    <li><a href="../../index.html">Contents</a></li>
+    <li><a href="index.html">1. Algorithm Analysis</a></li>
+    <li class="active">1.3. Analyzing Algorithms With Big-O Notation</li>
+</ol>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 content ">
+
+    
+  <div class="section" id="analyzing-algorithms-with-big-o-notation">
+<h1>1.3. Analyzing Algorithms With Big-O Notation<a class="headerlink" href="#analyzing-algorithms-with-big-o-notation" title="Permalink to this headline">¶</a></h1>
+<p>Now that we have a conceptual foundation of big-O Notation let’s explore it from a practical perspective. Analysis with big-O is about <em>comparing the classifications</em> of algorithms, not the algorithms themselves. Think of using big-O as a way of performing a surface-level analysis of how an algorithm will behave based on the <cite>class of algorithms</cite> it belongs to.</p>
+<p>Why do we look at the classifications rather than the algorithms themselves? Simply put, because it’s the fastest way of comparing performance. We perform analysis to determine what is worth pursuing. If at a high level one algorithm has a big-O that is more performant than another then we can immediately rule out the poorer candidate. We do not need to waste time implementing each algorithm to compare them in great detail. The classifications define their upper bound potential which, by definition, can never be exceeded.</p>
+<p>In this section we will learn about the most common big-O values and how each of their relative performance to one another. Along the way we will cover how to evaluate the big-O values of steps and the algorithm’s they belong to.</p>
+<p>Before we begin let’s take a look at a visual representation of the big-O values you are likely to encounter. We will soon explore each of these in more detail. For now use this graph to form a mental model of each of their upper bound behaviors.</p>
+<div class="figure" id="id1">
+<a class="reference internal image-reference" href="../../_images/function-examples.png"><img alt="Various functions of n" src="../../_images/function-examples.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Some functions of the variable <em>n</em> that commonly arise in algorithm analysis. (Image by <a class="reference external" href="https://commons.wikimedia.org/wiki/User:Cmglee" target="_blank">Cmglee<i class="fas fa-external-link-alt" aria-hidden="true"></i></a>, licensed under the Creative Commons Attribution-Share Alike 4.0 International license.)</span></p>
+</div>
+<div class="section" id="linear-big-o-values">
+<h2>1.3.1. Linear Big-O Values<a class="headerlink" href="#linear-big-o-values" title="Permalink to this headline">¶</a></h2>
+<p>From the graph above you likely noticed the two linear big-O values, <em>O(1)</em> and <em>O(n)</em>. Before getting into the more complex non-linear values let’s explore these basic notations first.</p>
+<div class="admonition-tip admonition">
+<p class="first admonition-title"><i class="fas fa-lightbulb" aria-hidden="true"></i>Tip</p>
+<p class="last">Remember that the big-O of an algorithm is evaluated using the big-O <cite>of the steps within it</cite>.</p>
+</div>
+<p id="index-0">When discussing big-O it is common to write <strong>pseudocode</strong> to represent the concepts associated with an algorithm. Pseudocode is an abstract way of writing code that is a mixture of plain English and generic syntax common to most programming languages. It allows us to describe programs and statements, such as the steps of an algorithm, while remaining agnostic to any specific programming language.</p>
+</div>
+<div class="section" id="o-1-constant-time">
+<span id="index-1"></span><h2>1.3.2. <em>O(1)</em>: Constant Time<a class="headerlink" href="#o-1-constant-time" title="Permalink to this headline">¶</a></h2>
+<p id="index-2">A big-O of <code class="docutils literal notranslate"><span class="pre">1</span></code> means the time complexity is <em>independent of the size of the input</em> <em>n</em>. No matter how large the input size is the growth rate will always remain constant. In other words, its growth rate is constant and represented graphically as a horizontal line.</p>
+<ul class="simple">
+<li>A step classified as of <em>O(1)</em> means it is an operation that runs in constant time.</li>
+<li>By extension, an algorithm classified as <em>O(1)</em> means the execution of its steps will run constant time.</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># a simple print statement
+print &quot;I am a simple print statement&quot;
+
+# indexing into an element of a list of size n
+second_element = list_of_size_n[1]
+
+# finding the smallest value of a list of n numbers that are sorted in ascending order
+smallest_element = sorted_list_of_size_n[0]
+
+# comparing two elements in a list of size n
+if list_of_size_n[0] equals list_of_size_n[5]:
+   # do some sub-step(s)
+</pre></div>
+</div>
+</div>
+<div class="section" id="o-n-linear-time">
+<span id="index-3"></span><h2>1.3.3. <em>O(n)</em>: Linear Time<a class="headerlink" href="#o-n-linear-time" title="Permalink to this headline">¶</a></h2>
+<p id="index-4">A big-O of <em>n</em> means the time complexity <em>is directly proportional to the size of the input</em> <em>n</em>. As the input size is increased, it will grow at a constant rate. It is represented graphically as a positively sloped line.</p>
+<p>It is associated programmatically with a finite loop, such as a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop.</p>
+<ul class="simple">
+<li>An <em>O(n)</em> step is a loop that will repeat its sub-step operations at <em>most</em> <em>n</em> number of times</li>
+<li>An algorithm classified as <em>O(n)</em> will take <em>at most</em> <em>n</em> number of operations to complete its steps</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># a loop iterating n number of times
+# notice that n can be a number itself rather than a structure of size n
+repeat from 0 to n:
+   # do some sub-step(s)
+
+# a loop iterating over each element in a list of size n
+for each element in list_of_size_n:
+   # do some sub-step(s)
+
+# a while loop that eventually reaches a stop condition is also applicable
+count = 0
+while count &lt; n:
+   # do some sub-step(s)
+   # one sub-step must increment the counter to ensure the loop will eventually end
+   count++
+</pre></div>
+</div>
+<p>Why do we say that <em>O(n)</em> will take <cite>at most</cite> <em>n</em> number of operations? Because this classification tells us the <cite>upper bound</cite> of what is possible, but the actual number of operations will depend on how the algorithm is used in practice.</p>
+<p>For example, if we are searching for a value in a list of size <em>n</em>, we would perform a comparison operation <cite>up to</cite> <em>n</em> times. We may find the match in the beginning (1 iteration) or at the end (<em>n</em> iterations) depending on where it is located. We can see that the practical number of iterations depends on the goal of the algorithm and its steps.</p>
+</div>
+<div class="section" id="evaluating-the-big-o-of-an-algorithm">
+<h2>1.3.4. Evaluating the Big-O of an Algorithm<a class="headerlink" href="#evaluating-the-big-o-of-an-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>As discussed previously, time complexity is referenced in units of operations. Some operations take a constant amount of time while others are dependent on the size of the input <em>n</em>. Algorithms are comprised of a series of steps, each of which can be thought of as an operation. Steps can also have sub-steps within them, such as an operation taken within a loop.</p>
+<p>Our end goal is to <cite>evaluate</cite> the big-O value of an algorithm. In order to do so, we have to evaluate the big-O of the steps and sub-steps <cite>within</cite> it. We group and evaluate steps according to their <strong>scope</strong>.</p>
+<p>In the pseudocode below, we use indentation to visualize the scope of each step and any sub-step within it.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function algorithm(n):
+   # outermost scope, print and loop operations
+
+   print &quot;let&#39;s learn how evaluation works!&quot;
+
+   repeat from 0 to n:
+      # loop scope, nested print operations
+
+      print &quot;I am in the loop scope&quot; # O(1)
+
+      print n
+</pre></div>
+</div>
+<p>After evaluating this algorithm, we classify it as <em>O(n)</em>. But how did we arrive at this classification?</p>
+<p>When classifying an algorithm’s big-O value, we need to evaluate each scope within it as a group. We start from the innermost scope and move outwards to the final scope of the algorithm itself.</p>
+<ol class="arabic simple">
+<li><strong>Count</strong>: classify and <strong>sum</strong> the big-O of each operation of the inner scope</li>
+<li><strong>Reduce</strong>: take the <strong>product</strong> of the sum of the inner scope with the big-O of its outer operation</li>
+<li>Repeat these steps for each scope in the algorithm</li>
+<li><strong>Cancel</strong>: as a final step we discard terms that have a negligible effect on the growth rate</li>
+</ol>
+<p>The result written in big-O notation is the classification of the algorithm.</p>
+<div class="admonition-note admonition">
+<p class="first admonition-title"><i class="fas fa-sticky-note" aria-hidden="true"></i>Note</p>
+<p class="last">Keep in mind that the use of <cite>addition</cite> and <cite>multiplication</cite> are used conceptually. You can not <cite>actually</cite> add or multiply a big-O value because it is just a notation not a value. We evaluate using the value inside the notation. For example, <em>O(1)</em> and <em>O(n)</em> are treated as the number <em>1</em> and variable <em>n</em> respectively.</p>
+</div>
+</div>
+<div class="section" id="sum-rule-count-within-a-scope">
+<h2>1.3.5. Sum Rule: Count Within a Scope<a class="headerlink" href="#sum-rule-count-within-a-scope" title="Permalink to this headline">¶</a></h2>
+<p>When evaluating operations in the same scope we classify each operation and add them together.</p>
+<p>Let’s begin with the innermost scope—the loop scope—from our example above. It contains two print operations, both of which run in constant time.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>repeat from 0 to n:
+   # loop scope, nested print operations
+
+   print &quot;I am in the loop scope&quot; # O(1)
+
+   print n # O(1)
+</pre></div>
+</div>
+<p>The sum of the loop scope, containing two <em>O(1)</em> operations, is evaluated as:</p>
+<div style="text-align:center;">1 + 1 = 2</div></div>
+<div class="section" id="product-rule-reducing-a-scope">
+<h2>1.3.6. Product Rule: Reducing a Scope<a class="headerlink" href="#product-rule-reducing-a-scope" title="Permalink to this headline">¶</a></h2>
+<p>A scope is reduced by taking the <strong>product</strong> of its sum and its outer operation. In other words we take the sum of the inner scope and multiply it by the operation it is contained in.</p>
+<p>The loop operation may repeat up to the input size, <em>n</em>, number of times so we say it runs in <em>O(n)</em> time.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>repeat from 0 to n: # O(n)
+   # loop scope, nested print operations
+
+   print &quot;I am in the loop scope&quot; # O(1)
+   print n # O(1)
+</pre></div>
+</div>
+<p>Using the loop scope sum of <em>2</em> we evaluate the product with the loop operation as:</p>
+<div style="text-align:center;">2 * n = 2n</div><p>The outermost scope now contains the reduced loop operation, <em>2n</em>, and a print operation, <em>1</em>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function algorithm(n):
+   # outermost scope, print and loop operations
+
+   print &quot;let&#39;s learn how evaluation works!&quot; # O(1)
+
+   repeat from 0 to n: # loop scope, reduced to 2n
+</pre></div>
+</div>
+<p>We take the sum of these operations as they are both in the same scope:</p>
+<div style="text-align:center;">2n + 1</div><p>At this point, we may be tempted classify our algorithm as <em>O(2n + 1)</em>. But we saw the algorithm’s actual classification is <em>O(n)</em>. Why do we get rid of, or <cite>cancel</cite> the coefficient <em>2</em> and the constant term <em>1</em>?</p>
+</div>
+<div class="section" id="cancel-rule-discarding-negligible-terms">
+<h2>1.3.7. Cancel Rule: Discarding Negligible Terms<a class="headerlink" href="#cancel-rule-discarding-negligible-terms" title="Permalink to this headline">¶</a></h2>
+<p>Recall that big-O represents the upper bound of an algorithm’s runtime.</p>
+<p>When we consider the behavior at <em>very large</em> values of <em>n</em>, we see that the following can be discarded:</p>
+<ul class="simple">
+<li><strong>Constant terms</strong>: any number that doesn’t change</li>
+<li><strong>Coefficients</strong>: any number that is multiplied with a variable</li>
+<li><strong>Lower-order terms</strong>: variables at a power less than the highest found in a polynomial</li>
+</ul>
+<p>To avoid getting bogged down in the mathematical details that supports cancellation let’s think about constants and coefficients in a practical sense. We will defer the discussion on lower order terms until later in this section when they have a relevant context.</p>
+<p>Essentially there is no number that can be multiplied (coefficient) or added (constant term) to the factor of <em>n</em> that will have any effect on the growth rate. For this reason, we consider coefficients and constants as <cite>negligible</cite> relative to the <em>n</em> term itself and can discard them.</p>
+<p>From our pseudocode example that was reduced to <code class="docutils literal notranslate"><span class="pre">2n</span> <span class="pre">+</span> <span class="pre">1</span></code>, we can see that <code class="docutils literal notranslate"><span class="pre">2</span></code> is a coefficient of <em>n</em> and <code class="docutils literal notranslate"><span class="pre">1</span></code> is a constant term, so both can be cancelled. After cancelling we are left with <em>n</em>. Writing this value in big-O Notation we finally classify the algorithm as <em>O(n)</em>.</p>
+<p>This example used linear big-O values to illustrate the process of evaluation simply. We will explore some common non-linear big-O values next. While they may appear more complex on the surface, they are evaluated in the same methodical way—from the inside out using sums, products, and cancelling negligible terms.</p>
+</div>
+<div class="section" id="non-linear-big-o-values">
+<h2>1.3.8. Non-Linear Big-O Values<a class="headerlink" href="#non-linear-big-o-values" title="Permalink to this headline">¶</a></h2>
+<p>Unlike the linear big-O values, the non-linear classifications are bounded at varying input sizes that cause their performance to degrade rapidly. At their respective upper bounds the number of operations they take to process larger inputs becomes impractical.</p>
+<div class="section" id="on-2-quadratic-time">
+<h3>1.3.8.1. <em>O(n<sup>2</sup>)</em>: Quadratic Time<a class="headerlink" href="#on-2-quadratic-time" title="Permalink to this headline">¶</a></h3>
+<p id="index-5">A big-O of <em>n<sup>2</sup></em> means the time complexity is <em>quadratic with respect to the size of the input</em> <em>n</em>. In other words, the number of operations required increases with the square of <em>n</em>. It is represented graphically as the positive half of a parabola, a U-shaped curve.</p>
+<span class="target" id="index-6"></span><p id="index-7">In practice, <em>O(n<sup>2</sup>)</em> is often related to two nested loops, where each may iterate <cite>at most</cite> <em>n</em> times.</p>
+<p>Recall that a loop behaves similarly to a <em>recursive</em> function call. Therefor, <em>O(n<sup>2</sup>)</em> often describes the runtime of a recursive call nested within a traditional finite loop.</p>
+<ul class="simple">
+<li>A step classified as <em>O(n<sup>2</sup>)</em> is a reduction of a loop operation within another loop operation.</li>
+<li>An algorithm classified as <em>O(n<sup>2</sup>)</em> means the execution of its steps will take <cite>at most</cite> a number of operations equal to the square of the input size.</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># a nested loop step driven by a numeric input of size n
+repeat from 0 to n times:
+   # some other sub-step(s)
+   repeat from 0 to n times:
+      # some sub-step(s)
+
+# an algorithm with recursion in a loop
+function recursing(list_of_size_n):
+   for each element in list_of_size_n:
+      # some other sub-step(s)
+
+      # the breakout condition to ensure finite recursion
+      if a breakout condition is not met:
+         # where ...n represents some recursive usage of n
+         return recursing(...n)
+</pre></div>
+</div>
+<p>Let’s consider an example to see how an algorithm is evaluated to a classification <em>O(n<sup>2</sup>)</em>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function nested_loops(n):
+   # algorithm scope
+
+   outer_count = 0
+   inner_count = 0
+
+   repeat from 0 to n times:
+      # outer loop scope
+
+      print outer_count
+      repeat from 0 to n times:
+         # inner loop scope
+
+         print inner_count
+         inner_count++
+
+      outer_count++
+</pre></div>
+</div>
+<p>Begin at the innermost scope:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>repeat from 0 to n times: # O(n)
+   # inner loop scope
+
+   print inner_count # O(1)
+   inner_count++ # O(1)
+</pre></div>
+</div>
+<p>inner loop scope is evaluated as:</p>
+<div style="text-align:center;">n * (1 + 1) = 2n</div><p>The outer loop scope is then considered:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>repeat from 0 to n times: # O(n)
+   # outer loop scope
+
+   print outer_count # O(1)
+
+   repeat from 0 to n times: # inner loop reduced to 2n
+
+   outer_count++ # O(1)
+</pre></div>
+</div>
+<p>Substituting the reduced inner loop scope value of 2n the outer loop scope is evaluated as</p>
+<div style="text-align:center;">n * (1 + 2n + 1) = n * (2n + 2) = 2n<sup>2</sup> + 2n</div><p>At the outermost algorithm scope:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function nested_loops(n):
+# algorithm scope
+
+outer_count = 0 # O(1)
+inner_count = 0 # O(1)
+
+repeat from 0 to n times: # outer loop reduced to 2n^2 + 2n
+</pre></div>
+</div>
+<p>The algorithm itself is evaluated as:</p>
+<div style="text-align:center;">2n<sup>2</sup> + 2n + 1 + 1 = 2n<sup>2</sup> + 2n + 2</div><p>If we factor out the common coefficient of 2 we can simplify this equation as:</p>
+<div style="text-align:center;">2 * (n<sup>2</sup> + n + 1)</div><p>We have already learned about cancelling negligible coefficients and constants which leaves us with:</p>
+<div style="text-align:center;">n<sup>2</sup> + n</div><p>But why do we drop the <em>n</em> term to arrive at the big-O Notation <em>O(n<sup>2</sup>)</em>?</p>
+</div>
+</div>
+<div class="section" id="cancel-rule-lower-order-terms">
+<h2>1.3.9. Cancel Rule: Lower Order Terms<a class="headerlink" href="#cancel-rule-lower-order-terms" title="Permalink to this headline">¶</a></h2>
+<p id="index-8">Our algorithm reduction of <em>n<sup>2</sup> + n</em> is known as a second-order polynomial, or quadratic function. We refer to it as <cite>second order</cite> because the highest power of <em>n</em> is <em>2</em>.</p>
+<p id="index-9">We can see how each degree of nesting loops corresponds to the order of the polynomial. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>repeat from 0 to n:
+   repeat from 0 to n:
+      repeat from 0 to n:
+</pre></div>
+</div>
+<p>This algorithm contains 3 degrees of nesting loops and would be reduced to a third-order polynomial, <em>n<sup>3</sup></em>. Generally speaking, we classify algorithms running in <strong>polynomial time</strong> as <em>O(n<sup>c</sup>)</em> where <em>c</em> is the highest order, or number of degrees of nested loops.</p>
+<p>Earlier we mentioned that <cite>lower order terms in a polynomial</cite> can also be cancelled. The justification for this is similar to that of cancelling coefficients and constants. Take <em>n<sup>2</sup> + n</em> for example. If both are taken at increasing values of <em>n</em> approaching infinity which will have a <cite>greater effect</cite> on growth rate? The highest order term will always <em>dominate</em> the growth rate relative to lower order terms.</p>
+<p>For this reason we can safely <em>cancel all but the highest order term</em>, leaving us with <em>n<sup>2</sup></em>. In big-O Notation we arrive at the classification <em>O(n<sup>2</sup>)</em>.</p>
+</div>
+<div class="section" id="o-log-n-logarithmic-time">
+<h2>1.3.10. <em>O(log n)</em>: Logarithmic Time<a class="headerlink" href="#o-log-n-logarithmic-time" title="Permalink to this headline">¶</a></h2>
+<p id="index-10">In later sections, we will encounter an algorithm that has <strong>logarithmic runtime</strong>. This means that the algorithm will be <em>O(log<sub>2</sub> n)</em>.</p>
+<div class="admonition-tip admonition">
+<p class="first admonition-title"><i class="fas fa-lightbulb" aria-hidden="true"></i>Tip</p>
+<p class="last">Recall that <em>x =</em> log<sub>2</sub> n means that <em>n =</em> <em>2<sup>x</sup></em>. In other words, log<sub>2</sub> n is the exponent that you must raise <em>2</em> to in order to get <em>n</em>. Taking a logarithm is the <em>inverse</em> (or reverse operation) of exponentiating.</p>
+</div>
+<p>Logarithmic runtime is another common nonlinear runtime. We won’t provide an example of an algorithm with logarithmic time here, but we’ll see one soon enough.</p>
+<div class="admonition-note admonition">
+<p class="first admonition-title"><i class="fas fa-sticky-note" aria-hidden="true"></i>Note</p>
+<p class="last">In this book, we will usually write <em>O(log n)</em> instead of <em>O(log<sub>2</sub> n)</em>, dropping the base <em>2</em>. We will only ever use the base-2 logarithm, so this shouldn’t present any confusion.</p>
+</div>
+</div>
+<div class="section" id="comparing-big-o-values">
+<h2>1.3.11. Comparing Big-O Values<a class="headerlink" href="#comparing-big-o-values" title="Permalink to this headline">¶</a></h2>
+<p>Now that we have covered some common big-O, values let’s take another look at our graph:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../_images/function-examples.png"><img alt="Various functions of n" src="../../_images/function-examples.png" style="width: 600px;" /></a>
+</div>
+<p>We can see that when ordered from most to least performant, we get the following order:</p>
+<ol class="arabic simple">
+<li><em>O(1)</em>: constant time</li>
+<li><em>O(log n)</em>: logarithmic time</li>
+<li><em>O(n)</em>: linear time</li>
+<li><em>O(n<sup>2</sup>)</em>: quadratic time</li>
+<li><em>O(n<sup>c</sup>)</em>: polynomial time</li>
+</ol>
+<p>We will explore <em>O(log n)</em> in more detail within the context of binary searches. For now, keep this order in mind as a quick way of comparing the classifications of algorithms and ruling out less performant candidates.</p>
+</div>
+<div class="section" id="check-your-understanding">
+<h2>1.3.12. Check Your Understanding<a class="headerlink" href="#check-your-understanding" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>Classify the following algorithm in big-O notation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function is_too_big(list_of_size_n, maximum_size):
+   if list_of_size_n is smaller or equal to maximum_size:
+      return true
+   return false
+</pre></div>
+</div>
+<ol class="last arabic simple">
+<li><em>O(1)</em></li>
+<li><em>O(n)</em></li>
+<li><em>O(n<sup>2</sup>)</em></li>
+<li><em>O(log n)</em></li>
+</ol>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>Classify the following algorithm in big-O notation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function has_the_number(numbers, target_number):
+   for number in numbers:
+      if number is equal to target_number:
+      return true
+   return false
+</pre></div>
+</div>
+<ol class="last arabic simple">
+<li><em>O(1)</em></li>
+<li><em>O(n)</em></li>
+<li><em>O(n<sup>2</sup>)</em></li>
+<li><em>O(log n)</em></li>
+</ol>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>Classify the following algorithm in big-O notation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function is_in_sublist(lists, target):
+
+   # lists is a two dimensional list (a list containing list elements)
+   for each list in lists:
+      for each element in sublist:
+      if element is equal to target:
+         return true
+   return false
+</pre></div>
+</div>
+<ol class="last arabic simple">
+<li><em>O(1)</em></li>
+<li><em>O(n)</em></li>
+<li><em>O(n<sup>2</sup>)</em></li>
+<li><em>O(log n)</em></li>
+</ol>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p>Classify the following algorithm using big-O notation.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function is_in_sublist(lists, target):
+
+  # lists is a two dimensional list (a list containing list elements)
+  for each list in lists:
+    for each element in sublist:
+      if element is equal to target:
+        return true
+  return false
+</pre></div>
+</div>
+<ol class="last arabic simple">
+<li><em>O(1)</em></li>
+<li><em>O(n)</em></li>
+<li><em>O(n<sup>2</sup>)</em></li>
+<li><em>O(log n)</em></li>
+</ol>
+</div>
+</div>
+</div>
+
+
+
+    
+    <nav aria-label="Next and Previous Pages">
+      <ul class="pager">
+        
+        <li class="previous"><a href="big-o-definition.html"><span aria-hidden="true">&larr;</span> 1.2. Big-O Notation In Detail</a></li>
+        
+        
+        <li class="next"><a href="insertion-sort.html">1.4. Insertion Sort <span aria-hidden="true">&rarr;</span></a></li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../../_sources/chapters/algorithm-analysis/analyzing-with-big-o-notation.rst.txt"
+     rel="nofollow">Page Source</a>
+</div>
+      
+    </p>
+    <p>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

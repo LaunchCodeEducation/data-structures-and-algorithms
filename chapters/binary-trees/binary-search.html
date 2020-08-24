@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>2.1. Binary Search &#8212; Data Structures and Algorithm Analysis  documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/fa/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/launchcode.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/site.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2.2. Binary Trees" href="binary-trees.html" />
+    <link rel="prev" title="2. Binary Trees and Binary Search" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body class="body-bc">
+
+<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+   <div class="container">
+     <div class="navbar-header">
+       <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/lc-ed-logo.png" alt="LaunchCode logo"></span>
+       </a>
+       <span class="navbar-text navbar-version pull-left"><b></b></span>
+     </div>
+
+       <div class="collapse navbar-collapse nav-collapse">
+         <ul class="nav navbar-nav">
+           
+           
+             
+           
+           
+           
+           
+           
+         </ul>
+
+         
+           
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+    <label for="q" class="searchLabel">Search</label>
+    <input type="text" name="q" class="form-control" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+         
+       </div>
+   </div>
+ </div>
+
+<ol class="breadcrumb container">
+    <li><a href="../../index.html">Contents</a></li>
+    <li><a href="index.html">2. Binary Trees and Binary Search</a></li>
+    <li class="active">2.1. Binary Search</li>
+</ol>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 content ">
+
+    
+  <div class="section" id="binary-search">
+<h1>2.1. Binary Search<a class="headerlink" href="#binary-search" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sort-revisited">
+<h2>2.1.1. Sort Revisited<a class="headerlink" href="#sort-revisited" title="Permalink to this headline">¶</a></h2>
+<p>In the last chapter you learned about the insertion sort algorithm. Sorting algorithms are very popular
+algorithms for applying algorithm analysis. One reason is that for sorted lists, some sorting algorithms have <em>O(log n)</em> runtime, which is one of the most performant big-O values.</p>
+<p>There are several sorting algorithms that are best-suited for different applications. We’ll explore these in more detail in the next chapter. In most examples, we will work with lists of integers. However, <em>any</em> data type can be sorted given a way to compare elements of the give type. We will learn about this in detail in the next chapter.</p>
+<p>For now, you can think of list of integers when we discuss sorted lists. And when we refer to a sorted collection, you can assume it has been sorted using something like insertion sort.</p>
+</div>
+<div class="section" id="simple-search">
+<h2>2.1.2. Simple Search<a class="headerlink" href="#simple-search" title="Permalink to this headline">¶</a></h2>
+<p>In the previous chapter, we discussed <strong>simple search</strong>, though we didn’t give it that label. Simple search is a <em>naive</em> search algorithm:</p>
+<ol class="arabic simple">
+<li>Loop through a list.</li>
+<li>For each element, compare it to the element we are searching for. If they are equal, we found it and can return. Otherwise, continue to the next element.</li>
+<li>If we reach the end of the list without finding a match, the search term is not in the list.</li>
+</ol>
+<p>This algorithm is <em>O(n)</em>, because in the worst case we have to look at every element in the list. It also works whether or not the list is sorted.</p>
+</div>
+<div class="section" id="id1">
+<h2>2.1.3. Binary Search<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p id="index-0">We can achieve <em>O(log n)</em> search time with <strong>binary search</strong>. Since <em>log n &lt; n</em> for large values of <em>n</em>, this will be a much more efficient alternative to simple search.</p>
+<p>So how does it work?</p>
+<div class="section" id="binary-search-algorithm">
+<h3>2.1.3.1. Binary Search Algorithm<a class="headerlink" href="#binary-search-algorithm" title="Permalink to this headline">¶</a></h3>
+<p>Binary search employs a split-the-middle approach. The basic outline of the algorithm is this:</p>
+<ol class="arabic simple">
+<li>Start with a sorted list of items</li>
+<li>Compare the search value with the item in the <em>middle</em> of the list<ol class="arabic">
+<li>If the two values are equal, we’ve found it!</li>
+<li>If the list has only 1 item, and the values are not equal, then the search value is not in the list</li>
+<li>Else…<ol class="arabic">
+<li>If the search value is <em>less</em> than the middle value, apply the algorithm to the <em>left</em> half of the sorted list</li>
+<li>If the search value is <em>greater</em> than the middle value, apply the algorithm to the <em>right</em> half of the sorted list</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>In less rigorous language, this algorithm can be described this way:</p>
+<ol class="arabic simple">
+<li>Compare the search value to the middle item in the list<ol class="arabic">
+<li>If they’re equal, you’ve found it!</li>
+<li>If they’re not equal, and there’s only one item in the list, then the search value is not in the list</li>
+<li>Otherwise, look in the left or right half of the list, depending on whether the search value is less or greater than the middle value</li>
+</ol>
+</li>
+</ol>
+<p>Notice how this algorithm depends on the list being sorted: If the list is NOT sorted, we can’t reliably make the decision to search to the right or left of the middle item.</p>
+</div>
+<div class="section" id="binary-search-examples">
+<h3>2.1.3.2. Binary Search Examples<a class="headerlink" href="#binary-search-examples" title="Permalink to this headline">¶</a></h3>
+<p>Let’s see how binary search works by exploring a specific example. We will apply the algorithm to find a couple of different values in the list:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(1, 2, 3, 4, 8, 9, 10, 14, 18, 20, 30)
+</pre></div>
+</div>
+<div class="section" id="search-value-18">
+<h4>2.1.3.2.1. Search Value: 18<a class="headerlink" href="#search-value-18" title="Permalink to this headline">¶</a></h4>
+<p><strong>Step 1:</strong> The list has 11 items, so the middle item is at index 5 (i.e. the 6th item). So the middle value is 9. Since 9 &lt; 18, we cut the list down to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(10, 14, 18, 20, 30)
+</pre></div>
+</div>
+<p><strong>Step 2:</strong> This new, smaller list has 5 items, and the middle value is 18. This is our search value, so we are done. It took us 2 steps to find the search value in the list.</p>
+</div>
+<div class="section" id="search-value-1">
+<h4>2.1.3.2.2. Search Value: 1<a class="headerlink" href="#search-value-1" title="Permalink to this headline">¶</a></h4>
+<p><strong>Step 1:</strong> As before, the middle item is 9. Since 1 &lt; 9, we cut the list down to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(1, 2, 3, 4, 8)
+</pre></div>
+</div>
+<p><strong>Step 2:</strong> The middle value of the new list is 3. Since 1 &lt; 3, we cut the list down to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(1, 2)
+</pre></div>
+</div>
+<p><strong>Step 3:</strong>. In this case, the list has an even number of elements, so it’s not clear what the middle element is. Typically, we use <em>length / 2</em> to calculate the middle index. In this case, this gives us a middle index of 1. The item at index 1 is 2. Since 1 &lt; 2, we cut the list down to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(1)
+</pre></div>
+</div>
+<p><strong>Step 4:</strong> There is only one element left in the list, and it’s our search value. So we are done! We found 1 in the list in 4 steps.</p>
+<p>This is an example of the worst-case scenario for a collection of size 11. Let’s discuss the performance of binary search in more detail.</p>
+</div>
+</div>
+<div class="section" id="binary-search-performance">
+<h3>2.1.3.3. Binary Search Performance<a class="headerlink" href="#binary-search-performance" title="Permalink to this headline">¶</a></h3>
+<p id="binary-search-perf">So for a collection with a length of 11, the best-case performance is 1
+operation, and the worst-case performance is 4 operations. That’s certainly
+more better than <em>O(n)</em> (where the best case would be 1, and the worst case
+would be 11).</p>
+<p>A binary search gives us a much more performant way of finding a value in a
+collection. Let’s figure out the big-O value for binary search. To do this, we observe that for a list of size <em>n</em>, the worst-case scenario is that the item either isn’t in the list, or that we follow the algorithm long enough to get down to a list of size 1. So the question becomes, how many times do we have to cut a list of size <em>n</em> in half to get down to a list of size 1?</p>
+<p>To answer this question, it’s a bit easier to think of it this way: How many times do we have to <em>double</em> the size of a list of size 1 to get up to size 9? If you think about it for a moment, you’ll see that is equivalent to the first question. In other words, we need to figure out the value <em>x</em> such that:</p>
+<div style="text-align:center;"><em>2<sup>x</sup> = n</em></div><p>Taking the base-2 logarithm of both sides gives us <em>x = log<sub>2</sub> n</em>. Therefore, binary search is <em>O(log n)</em>.</p>
+<p>Let’s apply this to our example above. There, the length of the list was 11, and <em>log<sub>2</sub> 11</em> is 3.4594. It
+took 4 steps in the worst case scenario!</p>
+<p>So now we have a handy equation for estimating how many operations a binary
+search would take on any size collection in the worst-case.</p>
+<ul class="simple">
+<li>Collection length of 10 -&gt; <em>log<sub>2</sub> 10</em> -&gt; 3.3219</li>
+<li>Collection length of 100 -&gt; <em>log<sub>2</sub> 100</em> -&gt; 6.6428</li>
+<li>Collection length of 10000000 -&gt; <em>log<sub>2</sub> 10000000</em> -&gt; 26.5754</li>
+</ul>
+<p>You can see how increasing the size even drastically doesn’t increase the
+number of operations. Binary search works so well because you can <em>double</em> the size of a list
+while only increasing the worst-case runtime for search by 1 operation. A
+binary search’s worst-case performance will always be better than a simple
+search’s worst-case performance when the collection size is the same.</p>
+<p>Since binary search is so powerful a unique data structure has been created
+for it. It’s essentially a data structure that is structured around splitting
+segments of data in half. We will explore this new structure further in the
+next section.</p>
+</div>
+</div>
+<div class="section" id="check-your-understanding">
+<h2>2.1.4. Check Your Understanding<a class="headerlink" href="#check-your-understanding" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p class="last"><strong>True/False:</strong> Binary search only works in conjunction with insertion sort.</p>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p class="last">Suppose you have a list of size <em>n</em>, which then grows to size <em>4n</em>. How many more operations will binary search take now, in the worst case?</p>
+</div>
+</div>
+</div>
+
+
+
+    
+    <nav aria-label="Next and Previous Pages">
+      <ul class="pager">
+        
+        <li class="previous"><a href="index.html"><span aria-hidden="true">&larr;</span> 2. Binary Trees and Binary Search</a></li>
+        
+        
+        <li class="next"><a href="binary-trees.html">2.2. Binary Trees <span aria-hidden="true">&rarr;</span></a></li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../../_sources/chapters/binary-trees/binary-search.rst.txt"
+     rel="nofollow">Page Source</a>
+</div>
+      
+    </p>
+    <p>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

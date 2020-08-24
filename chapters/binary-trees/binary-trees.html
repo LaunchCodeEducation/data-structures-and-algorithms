@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>2.2. Binary Trees &#8212; Data Structures and Algorithm Analysis  documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/fa/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/launchcode.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/site.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2.3. Binary Search Tree" href="binary-search-trees.html" />
+    <link rel="prev" title="2.1. Binary Search" href="binary-search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body class="body-bc">
+
+<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+   <div class="container">
+     <div class="navbar-header">
+       <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/lc-ed-logo.png" alt="LaunchCode logo"></span>
+       </a>
+       <span class="navbar-text navbar-version pull-left"><b></b></span>
+     </div>
+
+       <div class="collapse navbar-collapse nav-collapse">
+         <ul class="nav navbar-nav">
+           
+           
+             
+           
+           
+           
+           
+           
+         </ul>
+
+         
+           
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+    <label for="q" class="searchLabel">Search</label>
+    <input type="text" name="q" class="form-control" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+         
+       </div>
+   </div>
+ </div>
+
+<ol class="breadcrumb container">
+    <li><a href="../../index.html">Contents</a></li>
+    <li><a href="index.html">2. Binary Trees and Binary Search</a></li>
+    <li class="active">2.2. Binary Trees</li>
+</ol>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 content ">
+
+    
+  <div class="section" id="binary-trees">
+<h1>2.2. Binary Trees<a class="headerlink" href="#binary-trees" title="Permalink to this headline">¶</a></h1>
+<p>You likely have used some form of ordered collection (such as an array or list) to meet the needs of our various data requirements. Lists are great. They allow us to collect data together and reference items by their index. The majority of lists are unsorted, but in many cases a language offers a sort method.</p>
+<p>Lists are fantastic for collecting together data, but to search for a specific piece of data in an unordered list you typically would use a simple search, which is <em>O(n)</em>. Lists are less performant the larger they get.</p>
+<p>Today we will be introducing a new data structure that will allow us to easily use a binary search easily with our new data structure the binary tree.</p>
+<div class="section" id="binary-tree">
+<h2>2.2.1. Binary Tree<a class="headerlink" href="#binary-tree" title="Permalink to this headline">¶</a></h2>
+<p>Before we can learn about a binary search tree—which is the unique data
+structure that works with binary search—we have to learn about the data
+structure a binary search tree is based on, the binary tree.</p>
+<p id="index-0">A <strong>binary tree</strong> is a tree-like data structure in which any node can have up to
+two branches connecting it to additional nodes. When visualized the data structure looks
+like a tree.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    __A__
+   /     \
+  B       C
+ / \     / \
+D   E   F   G
+</pre></div>
+</div>
+<p>The root item, A, has two branches down to b and c. B has two branches down to D and E. C has
+two branches to F and G. If we were to add more elements to this data
+structure we would put them as new nodes connected by branches to either D, E,
+F, or G.</p>
+<p id="index-1">A <strong>subtree</strong> of a binary tree consists of one element and all of it’s children. For example, the subtree in the above example with root node B is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  B
+ / \
+D   E
+</pre></div>
+</div>
+<p>Not every binary tree will look perfect, with every
+node having two children nodes. To be a binary tree, it simply needs to be the case that no node has more than 2 children.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    _______A__
+   /          \
+  B_____       C__
+ /      \     /   \
+D        E   F     G
+        /         / \
+       H         I   J
+     /
+    K
+</pre></div>
+</div>
+<p>This is an example of a valid binary tree. None of the nodes have more than
+two children, and not every node has the same number of children. Some nodes
+have 2, 1, or even 0 children.</p>
+<p>The child’s position from the parent node is important.
+A has two children (B and C). We would call B the left child, and C the right
+child. B has two children (D and E). We would call D the left child of B, and
+E the right child of B.</p>
+<p>Binary trees are almost always used in Computer Science when it comes to
+sorting or searching. It is very rare you would need to code a binary tree
+yourself, but knowing how they work is beneficial in understanding how certain
+sorting and searching algorithms are performed.</p>
+<p>One of the main ways lists and binary trees are different is in the indexing of values for arrays. With an array you can access the first value by accessing index 0. You can use the same practice to access any value in the array, you simply need to know it’s position. In a binary tree, you cannot access a value by knowing it’s position. You find values by looking at the children of a node, and keep checking children until you find the value you are looking for. So how the data structure is used is quite different. We will see examples of how this is used in future sections.</p>
+<p>Since you cannot access an element by it’s index, and you must search through child relationships, this makes a binary tree a recursive structure.</p>
+<div class="section" id="root-node">
+<h3>2.2.1.1. Root Node<a class="headerlink" href="#root-node" title="Permalink to this headline">¶</a></h3>
+<p id="index-2">In a binary tree the <strong>root node</strong> is the first element of our data structure.</p>
+<p>In the example list <code class="docutils literal notranslate"><span class="pre">[5,</span> <span class="pre">19,</span> <span class="pre">2,</span> <span class="pre">4]</span></code> our first element is 5.</p>
+<p>In the example binary tree</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>     5
+    / \
+  19   2
+ /
+4
+</pre></div>
+</div>
+<p>5 is our root node. The element at the top of our tree is always considered the root node of the binary tree.</p>
+<p>So what are the remaining nodes called?</p>
+</div>
+<div class="section" id="child-nodes">
+<h3>2.2.1.2. Child Nodes<a class="headerlink" href="#child-nodes" title="Permalink to this headline">¶</a></h3>
+<p id="index-3">The next level down from our root node would be the child nodes of our root node.</p>
+<p>So in the example above of</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>     5
+    / \
+  19   2
+ /
+4
+</pre></div>
+</div>
+<p>5 is our root node, and it has two children: 19 and 2.</p>
+<p id="index-4">Even though both 19 and 2 are considered child nodes of 5, we may want to distinguish between the children so we have further classifications: <strong>left child</strong> and <strong>right child</strong>.</p>
+<p>In the example above, 19 is the left child of 5, and 2 is the right child of 5.</p>
+</div>
+<div class="section" id="depth">
+<h3>2.2.1.3. Depth<a class="headerlink" href="#depth" title="Permalink to this headline">¶</a></h3>
+<p id="index-5">The final term you should learn for binary tree is depth. <strong>Depth</strong> refers to the number of levels in a given binary tree.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>     5
+    / \
+  19   2
+ /
+4
+</pre></div>
+</div>
+<p>With the example we have used throughout this section, we can see three levels to our tree. 5 is the first level, 19 and 2 are at the second level, and 4 is at the third level. The depth of this tree is 3.</p>
+</div>
+</div>
+<div class="section" id="converting-a-list-to-a-binary-tree">
+<h2>2.2.2. Converting a List to a Binary Tree<a class="headerlink" href="#converting-a-list-to-a-binary-tree" title="Permalink to this headline">¶</a></h2>
+<p>As a final example let’s turn the list we saw from the last section into a binary tree.
+Recall that the list is: (1, 2, 3, 4, 8, 9, 10, 14, 18, 20, 30).</p>
+<p>Our algorithm to create a binary tree from this list will be:</p>
+<ol class="arabic simple">
+<li>Make the first element in the list the root.</li>
+<li>Looping through the remaining items in the list, fill out the tree one level at a time, moving left to right.</li>
+</ol>
+<p>This algorithm gives us the tree:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>         ________1__
+        /           \
+    ___2___          3
+   /       \        / \
+  4         8      9   10
+ / \       / \
+14  18    20  30
+</pre></div>
+</div>
+<div class="admonition">
+<p class="first admonition-title"><i class="fas fa-sticky-note" aria-hidden="true"></i>Note</p>
+<p class="last">This is a basic algorithm for turning a list into a binary tree. In future sections, you will see slightly more complex algorithms for creating a balanced binary tree from a list.</p>
+</div>
+</div>
+<div class="section" id="the-importance-of-order">
+<h2>2.2.3. The Importance of Order<a class="headerlink" href="#the-importance-of-order" title="Permalink to this headline">¶</a></h2>
+<p>Binary trees are powerful because they enable fast (<em>O(log n)</em>) search, insertion, and deletion. However, these efficient operations are only possible with an <em>ordered</em> tree. With an unordered binary tree you cannot achieve <em>O(log n)</em>.</p>
+<p>Let’s take an example of finding a specific value in the binary tree we created above.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>     5
+    / \
+  19   2
+ /
+4
+</pre></div>
+</div>
+<p>What if we are looking for the value 2? We would first check the root node 5. Does 5 equal 2? No, we need to move on. Let’s check the left node of the root node, 19. Does 19 equal 2? It does not. Let’s check the left node of the 19, which is 4. Does 4 equal 2? Nope. Since we don’t have any left nodes, let’s move back up a level. 19 does not have any right nodes so, let’s move up a level. 5 has a right node that is 2. Does 2 equal 2? Yes! We found our value in 4 checks, which happens to be the size of our data structure.</p>
+<p>From this example, we see that the worst case for search in an unordered binary tree is <em>O(n)</em>. This is nowhere near as good as a binary search <em>O(log n)</em>.</p>
+<p>However, what if this binary tree was ordered? Let’s impose an ordering condition:</p>
+<ol class="arabic simple">
+<li>For every element in the tree, its left subtree only contains elements less than or equal to it.</li>
+<li>For every element in the tree, its right subtree only contains elements greater than or equal to it.</li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>     5
+    / \
+  4    19
+ /
+2
+</pre></div>
+</div>
+<p>Now if we try to search through our binary tree, since it is ordered and follows the rule that every left child is smaller, and every right child is larger or equal to the parent node, we can easily do a binary search.</p>
+<p>If we are looking for the value 2. We would first check the root node 5. Does 5 equal 2? No, but now we can make an informed decision. Since 2 is smaller than 5, we know that it must be to the left of 5, if it is in the tree.</p>
+<p>The left child of 5 is 4. Does 2 equal 4? No. Since 2 is smaller than 4, we need to check the left child again. Does 2 equal 2? Yes! We found the matching value in one less iteration than the previous check.</p>
+<p>Imposing this order on a binary tree makes searching much easier.</p>
+</div>
+</div>
+
+
+
+    
+    <nav aria-label="Next and Previous Pages">
+      <ul class="pager">
+        
+        <li class="previous"><a href="binary-search.html"><span aria-hidden="true">&larr;</span> 2.1. Binary Search</a></li>
+        
+        
+        <li class="next"><a href="binary-search-trees.html">2.3. Binary Search Tree <span aria-hidden="true">&rarr;</span></a></li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../../_sources/chapters/binary-trees/binary-trees.rst.txt"
+     rel="nofollow">Page Source</a>
+</div>
+      
+    </p>
+    <p>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

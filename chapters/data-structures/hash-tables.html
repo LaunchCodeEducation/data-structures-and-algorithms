@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>4.3. Hash Tables &#8212; Data Structures and Algorithm Analysis  documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/fa/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/launchcode.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/site.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4.4. Stacks" href="stacks.html" />
+    <link rel="prev" title="4.2. Linked Lists" href="linked-lists.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body class="body-bc">
+
+<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+   <div class="container">
+     <div class="navbar-header">
+       <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/lc-ed-logo.png" alt="LaunchCode logo"></span>
+       </a>
+       <span class="navbar-text navbar-version pull-left"><b></b></span>
+     </div>
+
+       <div class="collapse navbar-collapse nav-collapse">
+         <ul class="nav navbar-nav">
+           
+           
+             
+           
+           
+           
+           
+           
+         </ul>
+
+         
+           
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+    <label for="q" class="searchLabel">Search</label>
+    <input type="text" name="q" class="form-control" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+         
+       </div>
+   </div>
+ </div>
+
+<ol class="breadcrumb container">
+    <li><a href="../../index.html">Contents</a></li>
+    <li><a href="index.html">4. Data Structures</a></li>
+    <li class="active">4.3. Hash Tables</li>
+</ol>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 content ">
+
+    
+  <div class="section" id="hash-tables">
+<h1>4.3. Hash Tables<a class="headerlink" href="#hash-tables" title="Permalink to this headline">¶</a></h1>
+<p>You just learned about linked lists, which have similarities to and differences with fixed-length arrays and built-in variable-length list types.</p>
+<p>This section explores hash tables, which have similarities to built-in key/value data structures such as maps and dictionaries.</p>
+<div class="section" id="abstract-structure">
+<h2>4.3.1. Abstract Structure<a class="headerlink" href="#abstract-structure" title="Permalink to this headline">¶</a></h2>
+<p id="index-0">A <strong>hash table</strong> (or hash map) is an associative array data structure, which means it maps keys to values. There are multiple approaches to building a hash table. We will explore one approach, and point you toward information on other approaches. All hash tables, however, use hash functions as a key part of their structure.</p>
+<div class="section" id="hash-functions">
+<h3>4.3.1.1. Hash Functions<a class="headerlink" href="#hash-functions" title="Permalink to this headline">¶</a></h3>
+<p id="index-1">Each hash table has a hash function. A <strong>hash function</strong> is a function that assigns a value, or index, to a value. This index determines which <strong>bucket</strong> the value should be stored in.</p>
+<p>For a given value, <code class="docutils literal notranslate"><span class="pre">x</span></code>, the index returned by the hash function is called its <strong>hash value</strong>. Ideally, hash values are unique. In other words, if <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> are not equal, then their hash values are different. In practice, however, this doesn’t usually happen. We’ll explore the ramifications of this below.</p>
+<p>Here’s how hash functions are used. To insert a value, <code class="docutils literal notranslate"><span class="pre">x</span></code>, into a hash table with hash function <code class="docutils literal notranslate"><span class="pre">h</span></code>, compute its hash value, <code class="docutils literal notranslate"><span class="pre">h(x)</span></code>. Then put <code class="docutils literal notranslate"><span class="pre">x</span></code> into the bucket labelled <code class="docutils literal notranslate"><span class="pre">h(x)</span></code>.</p>
+<img alt="../../_images/buckets.png" src="../../_images/buckets.png" />
+<p id="index-2">Similarly, if we want to retrieve a value from a hash table, we compute <code class="docutils literal notranslate"><span class="pre">h(x)</span></code> and then use this hash value to determine which bucket to look in. In key/value language, the hash value is the key, and the element itself is the value.</p>
+<p>The choice of hash function is typically left to the developer using the hash table, and is a <em>critical</em> component to ensure that the hash table is efficient, as we will see below.</p>
+<div class="admonition-example admonition">
+<p class="first admonition-title"><i class="fas fa-binoculars" aria-hidden="true"></i>Example</p>
+<p class="last">Suppose we wanted to store a bunch of student records in a hash table. We could set up 26 buckets, one for each letter of the alphabet. We could then have our hash function return the first letter of each student’s last name. This would group students together into buckets based on their last name.</p>
+</div>
+<p>The abstract definition of a hash table can be hard to grasp, so let’s look at one approach to implementing a hash table.</p>
+</div>
+</div>
+<div class="section" id="array-based-implementation">
+<h2>4.3.2. Array-Based Implementation<a class="headerlink" href="#array-based-implementation" title="Permalink to this headline">¶</a></h2>
+<p>One common hash table approach uses fixed-length arrays. To demonstrate this approach, we’ll consider storing student records, as in the example above.</p>
+<p>A hash table can be set up to use a fixed-length array, where the hash function determines the index in the array where a given item should be stored. For our student records, let’s use an array of length 26. Our hash function, <code class="docutils literal notranslate"><span class="pre">h</span></code>, will return numeric index of a student’s last initial.</p>
+<div class="admonition-example admonition">
+<p class="first admonition-title"><i class="fas fa-binoculars" aria-hidden="true"></i>Example</p>
+<p class="last">A student named Jane Adams would have hash value 0. A student named Tim Zane would have hash value 25.</p>
+</div>
+<p>Here’s what our hash table looks like, with a few students stored in it:</p>
+<img alt="../../_images/student-hashing.png" src="../../_images/student-hashing.png" />
+<p>To look up a student’s record, we compute their hash value and look at that location in the array.</p>
+<p>This structure has one big problem though, which is that two different students can have the same hash value. Where would we put Johnny Appleseed in the above hash table?</p>
+</div>
+<div class="section" id="collisions">
+<h2>4.3.3. Collisions<a class="headerlink" href="#collisions" title="Permalink to this headline">¶</a></h2>
+<p id="index-3">When two different values have the same hash value, it is known as a <strong>collision</strong>. Ideally, our hash function would provide a unique hash value for every item in practice, however, this is very difficult to achieve. There are many approaches to dealing with collisions, and we’ll look at one of them now.</p>
+<div class="section" id="separate-chaining">
+<h3>4.3.3.1. Separate Chaining<a class="headerlink" href="#separate-chaining" title="Permalink to this headline">¶</a></h3>
+<p id="index-4">One technique for handling collisions is <strong>separate chaining</strong>. With this technique, instead of storing values in the array, we store linked lists. Then, each spot in the array corresponds to the collection of values that have the same hash value. And since linked lists can grow as needed, our hash table can store as many items as needed.</p>
+<p>A student hash table with several collisions and using separate chaining looks like this:</p>
+<img alt="../../_images/separate-chaining.png" src="../../_images/separate-chaining.png" />
+<p>To add a new student to the table, we compute their hash value, and then append them to the linked list at the given index. Similarly, to search for a student in the table, we compute their hash value and search for them in the given linked list.</p>
+</div>
+</div>
+<div class="section" id="operations">
+<h2>4.3.4. Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<p>Let’s look at a few basic operations on hash tables using separate chaining, along with their big-O runtimes. In doing so, we will make two important assumptions:</p>
+<ol class="arabic simple">
+<li>Collisions are <em>very, very rare</em></li>
+<li>In addition to assumption 1, collisions are so rare that we can assume each linked list has no more than <em>N</em> items, where <em>N</em> is some fixed integer.</li>
+</ol>
+<p>Given our simplistic student record example, this may seem like a big assumption. In practice, however, it isn’t that difficult to achieve these requirements by carefully setting up the hash table. It’s typically possible to choose the array length and hash function so that these assumptions hold. If you don’t believe us, you can <a class="reference external" href="https://en.wikipedia.org/wiki/Hash_table" target="_blank">read more on the topic<i class="fas fa-external-link-alt" aria-hidden="true"></i></a>. Some very smart computer scientists have devised methods to achieve these assumptions in most cases.</p>
+<p>Okay, with these assumptions on collisions and the length of our chains, we can look at operations. In the following pseudocode examples, <code class="docutils literal notranslate"><span class="pre">table</span></code> will be our hash table and <code class="docutils literal notranslate"><span class="pre">h</span></code> will be the hash function. This means that <code class="docutils literal notranslate"><span class="pre">table</span></code> is an <strong>array</strong> and <code class="docutils literal notranslate"><span class="pre">h</span></code> is a function that takes values and returns values in the range 0…``array.length``.</p>
+<div class="admonition-note admonition">
+<p class="first admonition-title"><i class="fas fa-sticky-note" aria-hidden="true"></i>Note</p>
+<p>A common practice used to ensure that a hash function doesn’t return a value past the end of the array is to use the modulo operator. So, for example, of <code class="docutils literal notranslate"><span class="pre">f</span></code> is a function that takes a value and returns an integer, possibly well outside of the array bounds, we can make a hash function:</p>
+<div style="text-align:center;">h(x) = f(x) % array.length</div><p class="last">This ensures that all hash values will be within the array bounds.</p>
+</div>
+<div class="section" id="search-insertion-and-deletion">
+<h3>4.3.4.1. Search, Insertion, and Deletion<a class="headerlink" href="#search-insertion-and-deletion" title="Permalink to this headline">¶</a></h3>
+<p>The algorithm to find a value in a hash table is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function search(table, h, val)
+
+   hash_val = h(val)
+   list = table[hash_val]
+   return list_search(list, val)
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">list_search</span></code> is a function to search for a value in a linked list, as demonstrated in the last section.</p>
+<p>What’s the big-O runtime of this algorithm? The first two operations of this function run in <em>constant</em> time. The third operation, as we saw in the last section is <em>O(n)</em>, where <em>n</em> is the number of items in the linked list at the given spot in the hash table. However, due to our assumptions above, <em>this value is fixed</em>. In other words, we have <em>constant</em> big-O runtime!</p>
+<p>Searching a hash table is <em>O(1)</em>. Hash tables are very, very efficient for this operation. It’s not hard to see that insertion and deletion will also be <em>O(1)</em>. If you’re not convinced, we encourage you to write out the pseudocde for these operations and determine the big-O value yourself.</p>
+<p>Given the assumptions above,</p>
+<div class="admonition-note admonition">
+<p class="first admonition-title"><i class="fas fa-sticky-note" aria-hidden="true"></i>Note</p>
+<p>You will often see it stated that these operations are <em>O(1)</em>. Always remember that this is only the case if we have a carefully chosen hash function and array size.</p>
+<p class="last">With our simplistic student example above (with a simple has function and a small array), it’s easy to see that these big-O values don’t apply. We could have lots and lots of students with the same last initial, all stored in the same linked list.</p>
+</div>
+</div>
+</div>
+<div class="section" id="applications-and-notes">
+<h2>4.3.5. Applications and Notes<a class="headerlink" href="#applications-and-notes" title="Permalink to this headline">¶</a></h2>
+<p>Hash tables are optimized for fast lookup/search. Thus, they are often used for things like caching data or database indexing. They are also often used as the underlying structure for built-in map/dictionary data structures.</p>
+<p>The downside of hash tables is that to achieve <em>O(1)</em> efficiency, it is usually necessary to use very large arrays. This requires a large amount of memory. In fact, in most hash table implementations it is common for a large number (up to 25-50%) of the array slots to be empty! This means that such hash tables require a lot of unused memory in order to achieve such efficiency.</p>
+<p>As mentioned, there are many ways to set up a hash table. The main options involve the choice of hash function and the technique used to handle collisions. We encourage you to spend some time <a class="reference external" href="https://en.wikipedia.org/wiki/Hash_table" target="_blank">reading more about these aspects of hash tables<i class="fas fa-external-link-alt" aria-hidden="true"></i></a>.</p>
+</div>
+</div>
+
+
+
+    
+    <nav aria-label="Next and Previous Pages">
+      <ul class="pager">
+        
+        <li class="previous"><a href="linked-lists.html"><span aria-hidden="true">&larr;</span> 4.2. Linked Lists</a></li>
+        
+        
+        <li class="next"><a href="stacks.html">4.4. Stacks <span aria-hidden="true">&rarr;</span></a></li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../../_sources/chapters/data-structures/hash-tables.rst.txt"
+     rel="nofollow">Page Source</a>
+</div>
+      
+    </p>
+    <p>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

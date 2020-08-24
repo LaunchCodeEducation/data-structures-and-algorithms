@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>1.4. Insertion Sort &#8212; Data Structures and Algorithm Analysis  documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/fa/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/launchcode.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/site.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.5. Studio: Analyzing Algorithms" href="studio.html" />
+    <link rel="prev" title="1.3. Analyzing Algorithms With Big-O Notation" href="analyzing-with-big-o-notation.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body class="body-bc">
+
+<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+   <div class="container">
+     <div class="navbar-header">
+       <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/lc-ed-logo.png" alt="LaunchCode logo"></span>
+       </a>
+       <span class="navbar-text navbar-version pull-left"><b></b></span>
+     </div>
+
+       <div class="collapse navbar-collapse nav-collapse">
+         <ul class="nav navbar-nav">
+           
+           
+             
+           
+           
+           
+           
+           
+         </ul>
+
+         
+           
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+    <label for="q" class="searchLabel">Search</label>
+    <input type="text" name="q" class="form-control" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+         
+       </div>
+   </div>
+ </div>
+
+<ol class="breadcrumb container">
+    <li><a href="../../index.html">Contents</a></li>
+    <li><a href="index.html">1. Algorithm Analysis</a></li>
+    <li class="active">1.4. Insertion Sort</li>
+</ol>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 content ">
+
+    
+  <div class="section" id="insertion-sort">
+<span id="id1"></span><h1>1.4. Insertion Sort<a class="headerlink" href="#insertion-sort" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sorting">
+<h2>1.4.1. Sorting<a class="headerlink" href="#sorting" title="Permalink to this headline">¶</a></h2>
+<p id="index-0"><strong>Sorting</strong> is the act of taking a collection of data and rearranging it into a specific order. The order can be numerical ascending, numerical descending, alphabetical, by time, and so on.</p>
+<p>Some of the most famous algorithms are sorting algorithms. Sorting algorithms are important for many reasons, but for the purposes of this class they are primarily important because searching through <em>unsorted</em> data <em>always</em> takes <em>O(n)</em> time.</p>
+<p>To search for a value in unsorted data, the worst-case scenario is that the value in question is last and we have to check every single item in the collection. However, if the data is sorted you can implement different searching algorithms that are more performant than <em>O(n)</em>. We will see some of these searching algorithms in future lessons.</p>
+<p>That being said, not all sorting algorithms are equal. A sorting algorithm comes with it’s own big-O notation, making some sorting algorithms better depending on the incoming data.</p>
+<p>Throughout this book, we will introduce a number of various sorting algorithms. We will provide information about each sort which will be helpful in deciding when it provides the best solution. Some sorting algorithms are more efficient for small sets of data, others for large sets of data. Most programming languages already have these sorting algorithms built-in as a part of their standard libraries. However, it is valuable to know how they work, and how to implement them if you need to write your own custom sorting algorithm.</p>
+</div>
+<div class="section" id="id2">
+<h2>1.4.2. Insertion Sort<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p id="index-1">The first sorting algorithm we will be looking at is <strong>insertion sort</strong>. This sort can be implemented in a couple of different ways, but we will be showing examples that sort a collection of numbers in ascending order. That is to say, the smallest number will be the first element in the array, and the largest number will be the last element in the array.</p>
+<div class="admonition-example admonition">
+<p class="first admonition-title"><i class="fas fa-binoculars" aria-hidden="true"></i>Example</p>
+<p>Given the input</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[4, 3, 8, 7, 2, 10]
+</pre></div>
+</div>
+<p>insertion sort will return</p>
+<div class="last highlight-none notranslate"><div class="highlight"><pre><span></span>[2, 3, 4, 7, 8, 10]
+</pre></div>
+</div>
+</div>
+<p>Insertion sort works as follows:</p>
+<ol class="arabic simple">
+<li>Create a new, empty array. This will eventually contain the sorted items.</li>
+<li>Add the first item from the unsorted array to the new array.</li>
+<li>For each other item in the unsorted array, insert the item in the new array so that the new array remains sorted.</li>
+</ol>
+<p>Here is the algorithm in pseudocode:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>// create a new array with the first item
+sorted = [unsorted[0]]
+
+for i in 1..unsorted.length-1:
+   for j in 0..sorted.length:
+
+      item = unsorted[i]
+
+      // we&#39;ve reached the end of the array, so the new element
+      // is larger than all elements in sorted
+      if j == sorted.length:
+         append item to sorted
+         break
+
+      if item &lt; sorted[j]:
+         insert item at position j, and shift elements to the right
+         break
+</pre></div>
+</div>
+<p>We see that the algorithm requires a loop nested inside of another loop, making it’s big-O value <em>O(n<sup>2</sup>)</em>.</p>
+<p>Let’s manually step through an array to see how the insertion sort works. We will start with the example array above <code class="docutils literal notranslate"><span class="pre">[4,</span> <span class="pre">3,</span> <span class="pre">8,</span> <span class="pre">7,</span> <span class="pre">2,</span> <span class="pre">10]</span></code>, and end up with <code class="docutils literal notranslate"><span class="pre">[2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">10]</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[4, 3, 8, 7, 2, 10] // original unsorted array
+
+// -- pass 1 --
+// sorted elements: [4]
+// new element: 3
+//   -- pass a --
+//   new element (3) is smaller than sorted elements [0] (4)
+//   insert new element (3) into sorted elements at sorted elements [0] (4)
+//   break out of inner loop
+
+// -- pass 2 --
+// sorted elements: [3, 4]
+// new element: 8
+//   -- pass a --
+//   new element (8) is not smaller than sorted elements[0] (3)
+//   -- pass b --
+//   new element (8) is not smaller than sorted elements[1] (4)
+//   -- end of inner loop --
+//   new element (8) was not smaller than any sorted elements so insert it at the end of sorted elements
+
+// -- pass 3 --
+// sorted elements: [3, 4, 8]
+// new element: 7
+//   -- pass a --
+//   new element (7) is not smaller than sorted elements[0] (3)
+//   -- pass b --
+//   new element (7) is not smaller than sorted elements[1] (4)
+//   -- pass c --
+//   new element (7) is smaller than sorted elements[2] (8)
+//   insert new element (7) into sorted elements at sorted elements[2] (8)
+//   break out of inner loop
+
+// -- pass 4 --
+// sorted elements: [3, 4, 7, 8]
+// new element: 2
+//   -- pass a --
+//   new element (2) is smaller than sorted elements[0] (3)
+//   insert new element (2) into sorted elements at sorted elements[0]
+//   break out of inner loop
+
+// -- pass 5 --
+// sorted elements: [2, 3, 4, 7, 8]
+// new element: 10
+//   -- pass a --
+//   new element (10) is not smaller than sorted elements[0] (2)
+//   -- pass b --
+//   new element (10) is not smaller than sorted elements[1] (3)
+//   -- pass c --
+//   new element (10) is not smaller than sorted elements[2] (4)
+//   -- pass d --
+//   new element (10) is not smaller than sorted elements[3] (7)
+//   -- pass e --
+//   new element (10) is not smaller than sorted elements[4] (8)
+//   -- end of inner loop --
+//   new element (10) was not smaller than any sorted elements so insert it at the end of sorted elements
+
+// all loops have completed
+// sorted elements: [2, 3, 4, 7, 8, 10]
+</pre></div>
+</div>
+<p>We will now look at two implementations of insertion sort in code. The examples here are in C#, but you should be able to follow even if you’re unfamiliar with the language.</p>
+<div class="section" id="non-recursive-solution">
+<h3>1.4.2.1. Non-Recursive Solution<a class="headerlink" href="#non-recursive-solution" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MainClass</span> <span class="p">{</span>
+
+  <span class="k">public</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">insertionSort</span><span class="p">(</span><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Original Array:&quot;</span><span class="p">);</span>
+    <span class="n">arr</span><span class="p">.</span><span class="n">ForEach</span><span class="p">(</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">sortedArray</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;();</span>
+    <span class="n">sortedArray</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">new_element</span> <span class="p">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+      <span class="kt">bool</span> <span class="n">inserted</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+      <span class="kt">int</span> <span class="n">count</span> <span class="p">=</span> <span class="n">sortedArray</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span>
+      <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">new_element</span> <span class="p">&lt;</span> <span class="n">sortedArray</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+          <span class="n">sortedArray</span><span class="p">.</span><span class="n">Insert</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">new_element</span><span class="p">);</span>
+          <span class="n">inserted</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="k">if</span><span class="p">(!</span><span class="n">inserted</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">sortedArray</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">new_element</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">sortedArray</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span> <span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">var</span> <span class="n">arr</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span><span class="m">4</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">10</span><span class="p">};</span>
+    <span class="kt">var</span> <span class="n">sortedArray</span> <span class="p">=</span> <span class="n">insertionSort</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;---------&quot;</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Sorted Array:&quot;</span><span class="p">);</span>
+    <span class="n">sortedArray</span><span class="p">.</span><span class="n">ForEach</span><span class="p">(</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="recursive-solution">
+<h3>1.4.2.2. Recursive Solution<a class="headerlink" href="#recursive-solution" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MainClass</span> <span class="p">{</span>
+
+  <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">recursiveInsertionSort</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="p">==</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">recursiveInsertionSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span> <span class="p">-</span> <span class="m">1</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">last</span> <span class="p">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">n</span> <span class="p">-</span> <span class="m">1</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="n">n</span> <span class="p">-</span> <span class="m">2</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="p">&gt;=</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">&gt;</span> <span class="n">last</span><span class="p">)</span>
+      <span class="p">{</span>
+          <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="p">+</span> <span class="m">1</span><span class="p">]</span> <span class="p">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+          <span class="n">j</span><span class="p">--;</span>
+      <span class="p">}</span>
+      <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="p">+</span> <span class="m">1</span><span class="p">]</span> <span class="p">=</span> <span class="n">last</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span> <span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="p">[]</span><span class="n">arr</span> <span class="p">=</span> <span class="p">{</span><span class="m">4</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">10</span><span class="p">};</span>
+
+    <span class="n">recursiveInsertionSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">arr</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="p">{</span>
+      <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">+</span> <span class="s">&quot; &quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="check-your-understanding">
+<h2>1.4.3. Check Your Understanding<a class="headerlink" href="#check-your-understanding" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p class="last"><strong>True/False:</strong> Searching for a value in a collection has the same big-O value regardless of whether or not the collection is sorted.</p>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p class="last"><strong>True/False:</strong> All sorting algorithms have the same big-O value.</p>
+</div>
+<div class="admonition-question admonition">
+<p class="first admonition-title"><i class="fas fa-question" aria-hidden="true"></i>Question</p>
+<p class="last">What is the big-O value of insertion sort?</p>
+</div>
+</div>
+</div>
+
+
+
+    
+    <nav aria-label="Next and Previous Pages">
+      <ul class="pager">
+        
+        <li class="previous"><a href="analyzing-with-big-o-notation.html"><span aria-hidden="true">&larr;</span> 1.3. Analyzing Algorithms With Big-O Notation</a></li>
+        
+        
+        <li class="next"><a href="studio.html">1.5. Studio: Analyzing Algorithms <span aria-hidden="true">&rarr;</span></a></li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../../_sources/chapters/algorithm-analysis/insertion-sort.rst.txt"
+     rel="nofollow">Page Source</a>
+</div>
+      
+    </p>
+    <p>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>3.3. Merge Sort &#8212; Data Structures and Algorithm Analysis  documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/fa/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/launchcode.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/site.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3.4. Studio: Sorting Algorithms Practice" href="studio.html" />
+    <link rel="prev" title="3.2. Bubble Sort" href="bubble-sort.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body class="body-bc">
+
+<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+   <div class="container">
+     <div class="navbar-header">
+       <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/lc-ed-logo.png" alt="LaunchCode logo"></span>
+       </a>
+       <span class="navbar-text navbar-version pull-left"><b></b></span>
+     </div>
+
+       <div class="collapse navbar-collapse nav-collapse">
+         <ul class="nav navbar-nav">
+           
+           
+             
+           
+           
+           
+           
+           
+         </ul>
+
+         
+           
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+    <label for="q" class="searchLabel">Search</label>
+    <input type="text" name="q" class="form-control" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+         
+       </div>
+   </div>
+ </div>
+
+<ol class="breadcrumb container">
+    <li><a href="../../index.html">Contents</a></li>
+    <li><a href="index.html">3. Sorting Algorithms</a></li>
+    <li class="active">3.3. Merge Sort</li>
+</ol>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 content ">
+
+    
+  <div class="section" id="merge-sort">
+<h1>3.3. Merge Sort<a class="headerlink" href="#merge-sort" title="Permalink to this headline">¶</a></h1>
+<p>In the last section, we learned about bubble sort. That algorithm has worst-case runtime <em>O(n<sup>2</sup>)</em>, which is very slow for large data sets.</p>
+<p>We will now introduce merge sort, which is an <strong>efficient sort</strong>. An efficient sort is one that has <em>O(n log n)</em> runtime. Since <em>log n</em> is much smaller than <em>n</em> for large values of <em>n</em>, this is much more efficient than <em>O(n<sup>2</sup>)</em>.</p>
+<div class="section" id="the-algorithm">
+<h2>3.3.1. The Algorithm<a class="headerlink" href="#the-algorithm" title="Permalink to this headline">¶</a></h2>
+<p><strong>Merge sort</strong> uses a divide-and-conquer approach. The basic process is:</p>
+<ol class="arabic simple">
+<li>Break the list into <em>n</em> lists of size 1. A list of size 1 is automatically sorted.</li>
+<li><em>Merge</em> pairs of smaller lists so that the resulting merged lists are sorted.</li>
+<li>Continue step 2 until there is only 1 list. This list is sorted.</li>
+</ol>
+<p>To write this in code, or pseudocode, it is easier to think of this algorithm <a class="reference external" href="https://education.launchcode.org/intro-to-professional-web-dev/chapters/more-on-functions/recursion.html" target="_blank">recursively<i class="fas fa-external-link-alt" aria-hidden="true"></i></a>.</p>
+<ol class="arabic simple">
+<li>Break the list into two halves.</li>
+<li>Sort the two halves.</li>
+<li>Merge the halves together.</li>
+</ol>
+<p>Step 2 here is the recursive step. It results in a nested process of halving of lists until lists of length 1 are created. These lists are sorted automatically, so then the recursive process begins returning up the call stack, merging lists as it does so.</p>
+<p>To write merge sort in pseudocode, it will be helpful to have a <code class="docutils literal notranslate"><span class="pre">merge</span></code> function that takes two sorted lists and returns a single sorted list, the result of combining the two.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function merge(a, b)
+
+   merged = []
+   i, j = 0
+
+   while i &lt; a.length and j &lt; b.length
+      if a[i] &lt; b[j]
+         merged[i+j] = a[i]
+         i++
+      else
+         merged[i+j] = b[j]
+         j++
+
+   // a has been fully merged, but there are still elements of b to merge
+   if i == a.length
+      merged.append(b[j..b.length-1])
+   // b has been fully merged, but there are still elements of a to merge
+   else
+      merged.append(a[i..a.length-1])
+</pre></div>
+</div>
+<p>With this helper function in-hand, merge sort looks like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>function merge_sort(list)
+
+   // base case for recursion
+   if list.length == 1
+      return list
+
+   middle_idx = floor(list.length/2)
+   a = list[0..middle_idx-1]
+   b = list[middle_idx..list.length-1]
+   left = merge_sort(a)
+   right = merge_sort(b)
+
+   return merge(left, right)
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">floor</span></code> is a function that returns the integer part of a positive float value. Most languages have such a function built-in, and if not, one can easily be written.</p>
+</div>
+<div class="section" id="an-example">
+<h2>3.3.2. An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h2>
+<p>The figure below shows how recursive merge sort works, step-by-step. The red arrows signify recursive calls to <code class="docutils literal notranslate"><span class="pre">merge_sort</span></code> on the halved lists. The green arrows signify calls to <code class="docutils literal notranslate"><span class="pre">merge</span></code> on sorted lists.</p>
+<div class="figure" id="id1">
+<a class="reference internal image-reference" href="../../_images/merge-sort-example.png"><img alt="A tree-like diagram showing a recursive merge sort example" src="../../_images/merge-sort-example.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Image via Wikipedia is in the public domain</span></p>
+</div>
+<p>Notice how at each step in the top half of the diagram, a list is broken down to smaller lists. This breaking-down process continues until we arrive at lists of size 1. From there, we start merging the pairs of sorted lists, one level at a time.</p>
+</div>
+<div class="section" id="big-o-analysis">
+<h2>3.3.3. Big-O Analysis<a class="headerlink" href="#big-o-analysis" title="Permalink to this headline">¶</a></h2>
+<p>To understand the worst-case runtime for merge sort, we need to consider the big-O values of the <code class="docutils literal notranslate"><span class="pre">merge</span></code> and <code class="docutils literal notranslate"><span class="pre">merge_sort</span></code> recursive calls separately.</p>
+<p>In the algorithm above, <code class="docutils literal notranslate"><span class="pre">merge(a,</span> <span class="pre">b)</span></code> has <em>a.length + b.length</em> operations. Looking at a single level in the lower-half of the example diagram above, we see that adding up all of these operations for each of the calls to <code class="docutils literal notranslate"><span class="pre">merge</span></code> at a given level results in <em>n</em> operations. For example, the second merge step combines the following pairs:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">(27,</span> <span class="pre">38)</span></code> and <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">43)</span></code> -&gt; 4 operations to merge</li>
+<li><code class="docutils literal notranslate"><span class="pre">(9,</span> <span class="pre">82)</span></code> and <code class="docutils literal notranslate"><span class="pre">(10)</span></code> -&gt; 3 operations to merge</li>
+</ul>
+<p>So the total number of operations to carry out <em>both</em> merges is 7, which is the size of our original list. The same is true at every other level.</p>
+<p>The overall number of operations will then be <em>n</em> times the number of recursive calls to <code class="docutils literal notranslate"><span class="pre">merge_sort</span></code>, since each recursive call results in <code class="docutils literal notranslate"><span class="pre">n</span></code> operations to merge smaller lists. Since each recursive call <em>halves</em> a list, we need to figure out how many times we must carry out this halving operation before reaching lists of length 1. This is the <em>exact same</em> situation that we encountered when <a class="reference internal" href="../binary-trees/binary-search.html#binary-search-perf"><span class="std std-ref">calculating the big-O value for binary search</span></a>!</p>
+<p>Therefore, we see that there will be <em>log n</em> recursive steps, and so overall merge sort is <em>O(n log n)</em>.</p>
+</div>
+</div>
+
+
+
+    
+    <nav aria-label="Next and Previous Pages">
+      <ul class="pager">
+        
+        <li class="previous"><a href="bubble-sort.html"><span aria-hidden="true">&larr;</span> 3.2. Bubble Sort</a></li>
+        
+        
+        <li class="next"><a href="studio.html">3.4. Studio: Sorting Algorithms Practice <span aria-hidden="true">&rarr;</span></a></li>
+        
+      </ul>
+    </nav>
+    
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../../_sources/chapters/sorting-algorithms/merge-sort.rst.txt"
+     rel="nofollow">Page Source</a>
+</div>
+      
+    </p>
+    <p>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
